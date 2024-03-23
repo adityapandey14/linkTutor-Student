@@ -7,68 +7,76 @@ struct listClassesScreen: View{
    
     
     let skillType: SkillType
+    @ObservedObject var teacherViewModel = TeacherViewModel.shared
   //  var skillId : SkillType.ID
     @ObservedObject var viewModel = SkillViewModel()
     @State private var isAscendingOrder = true
-    
-  // @Binding var isShowingDetailView : Bool
-    
-//    enum SortOption: String, Identifiable {
-//        case lowToHigh = "Low to High"
-//        case highToLow = "High to Low"
-//        var id: String { self.rawValue }
-//    }
+    @State private var showActionSheet = false
+
     
     var body: some View {
         NavigationStack {
-            ZStack{
+            VStack{
  
                 ScrollView {
-                    VStack {
-                        HStack {
-                            Button(action: {
-                                if isAscendingOrder {
-                                    viewModel.sortDetailsAscending(for: skillType)
-                                } else {
-                                    viewModel.sortDetailsDescending(for: skillType)
+                    VStack{
+
+                        VStack(alignment: .leading) {
+                            if let skillTypeIndex = viewModel.skillTypes.firstIndex(where: { $0.id == skillType.id }) {
+                                let skillTypeDetails = viewModel.skillTypes[skillTypeIndex]
+                                
+                                ForEach(skillTypeDetails.skillOwnerDetails) { detail in
+                                    VStack(alignment: .leading) {
+                                        
+                                        
+                                        
+                                        NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid, academy: detail.academy , skillUid: detail.skillUid , skillOwnerUid: detail.id, className: detail.className, startTime: detail.startTime, endTime: detail.endTime, week: detail.week)) {
+                                            
+                                            classPreviewCard(academy: detail.academy, className: detail.className, phoneNumber: 1234567890, price: Int(detail.price) , teacherUid : detail.teacherUid)
+                                            
+                                        }
+                                        .padding()
+                                    }
                                 }
-                                isAscendingOrder.toggle()
-                            }) {
-                                Text("Sort by Price \(isAscendingOrder ? "Descending" : "Ascending")")
-                                    .padding()
-                                    .foregroundColor(.white)
-                                    .background(Color.blue)
-                                    .cornerRadius(8)
+                            } else {
+                                Text("Loading...")
                             }
+                            
+                            
                         }
                         .padding()
                     }
-                    VStack(alignment: .leading) {
-                        if let skillTypeIndex = viewModel.skillTypes.firstIndex(where: { $0.id == skillType.id }) {
-                            let skillTypeDetails = viewModel.skillTypes[skillTypeIndex] 
-                            
-                            ForEach(skillTypeDetails.skillOwnerDetails) { detail in
-                                VStack(alignment: .leading) {
-                                    
-                              
-                                    
-                                    NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid, academy: detail.academy , skillUid: detail.skillUid , skillOwnerUid: detail.id, className: detail.className, startTime: detail.startTime, endTime: detail.endTime, week: detail.week)) {
-                                        
-                                        classPreviewCard(academy: detail.academy, className: detail.className, phoneNumber: 1234567890, price: Int(detail.price) , teacherUid : detail.teacherUid)
-                                        
-                                    }
-                                    .padding()
-                               }
-                            }
-                        } else {
-                            Text("Loading...")
-                        }
-                        
-                        
-                    }
                     .padding()
-                }
-                .navigationTitle("Details")
+                } //end of scroll
+                .navigationTitle(Text("Details"))
+                .navigationBarItems(trailing:
+                                Button(action: {
+                                    showActionSheet.toggle()
+                                }) {
+                                    Image(systemName: "line.3.horizontal.decrease")
+                                        .font(.system(size: 20))
+                                }
+                            )
+                            .actionSheet(isPresented: $showActionSheet) {
+                                ActionSheet(
+                                    title: Text("Filter Options"),
+                                    buttons: [
+                                        .default(Text("Low to High Price")) {
+                                            if isAscendingOrder {
+                                          viewModel.sortDetailsAscending(for: skillType)
+                                            }
+                                            isAscendingOrder.toggle()
+                                        },
+                                        .default(Text("High to Low Price")) {
+                                            if isAscendingOrder == false {
+                                          viewModel.sortDetailsDescending(for: skillType)
+                                            }
+                                            isAscendingOrder.toggle()
+                                        },
+                                        .cancel(),
+                                    ]
+                                )
+                            }
                 .onAppear {
                     viewModel.fetchSkillOwnerDetails(for: skillType)
                 }

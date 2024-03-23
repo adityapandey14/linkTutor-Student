@@ -12,14 +12,14 @@ final class listClassesScreenModel : ObservableObject {
     // this property needs to be published because we want our grid to be listening for when is showing View details view changes
     // when the isShowingViewDetail is changes to true then we are going to show the details
     
-     var selectedFramework : classMockData?
-    {
-        didSet {
-            isShowingDetailView = true
-            //Any time the selected framework is changing we are going to make it true
-            // When we tap on the grid this will change
-        }
-    }
+//   //  var selectedFramework : classMockData?
+//    {
+//        didSet {
+//            isShowingDetailView = true
+//            //Any time the selected framework is changing we are going to make it true
+//            // When we tap on the grid this will change
+//        }
+//    }
     
     var popularClassFramework : allPopularCard?
     {

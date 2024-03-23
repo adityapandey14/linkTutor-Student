@@ -46,7 +46,7 @@ struct calenderPage: View {
                 .foregroundColor(.gray)
 
             HStack {
-                Text("\(formattedTiming(date: startTime))")
+                Text("\(formattedTimingWithoutDay(date: startTime))")
                     .font(AppFont.smallReg)
             }
         }

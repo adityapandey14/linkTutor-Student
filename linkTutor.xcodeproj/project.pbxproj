@@ -39,7 +39,6 @@
 		0FAA9BE72B68B97600C0A82D /* quickInfoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAA9BE62B68B97600C0A82D /* quickInfoCard.swift */; };
 		0FAA9BEC2B68CA9400C0A82D /* reviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAA9BEB2B68CA9400C0A82D /* reviewCard.swift */; };
 		0FAA9BF22B68D32700C0A82D /* ProfileInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FAA9BF12B68D32700C0A82D /* ProfileInputView.swift */; };
-		0FDA44792B68D58D006F1418 /* MyTimetablePageSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDA44782B68D58D006F1418 /* MyTimetablePageSwiftUIView.swift */; };
 		0FDA447C2B68D5EC006F1418 /* TimeTableCardSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDA447B2B68D5EC006F1418 /* TimeTableCardSwiftUIView.swift */; };
 		0FDA44862B68FDC2006F1418 /* accentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDA44852B68FDC2006F1418 /* accentHeader.swift */; };
 		0FDA44892B6903CC006F1418 /* accentClassViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDA44882B6903CC006F1418 /* accentClassViewHeader.swift */; };
@@ -54,7 +53,6 @@
 		B1A9E3BB2B6BE8A200324817 /* loginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3BA2B6BE8A100324817 /* loginView.swift */; };
 		B1A9E3BE2B6BF0F600324817 /* accentLongHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3BD2B6BF0F600324817 /* accentLongHeader.swift */; };
 		B1A9E3C02B6C097500324817 /* signUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3BF2B6C097500324817 /* signUpView.swift */; };
-		B1A9E3C32B6C9AEE00324817 /* classMockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3C22B6C9AEE00324817 /* classMockData.swift */; };
 		B1A9E3C52B6CA32300324817 /* gradient header.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3C42B6CA32300324817 /* gradient header.swift */; };
 		B1A9E3C92B6CB3FD00324817 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3C82B6CB3FD00324817 /* Notifications.swift */; };
 		B1A9E3CB2B6CB5AA00324817 /* timetablesample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3CA2B6CB5AA00324817 /* timetablesample.swift */; };
@@ -62,7 +60,6 @@
 		DF046C502B9E0442005C9EB2 /* ReviewDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF046C4F2B9E0442005C9EB2 /* ReviewDetails.swift */; };
 		DF07AB2C2BA40B6D00CF4EF3 /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF07AB2B2BA40B6D00CF4EF3 /* UserDetails.swift */; };
 		DF0A3FB92B9B9E3E00B1DA6F /* skilltype.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0A3FB82B9B9E3E00B1DA6F /* skilltype.swift */; };
-		DF0A3FBF2B9C617400B1DA6F /* SkillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0A3FBE2B9C617300B1DA6F /* SkillView.swift */; };
 		DF42B1B72BA318AA00EAB98E /* classLandingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF42B1B62BA318AA00EAB98E /* classLandingPage.swift */; };
 		DF578C812BA24BAB005D0CA1 /* requestConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF578C802BA24BAB005D0CA1 /* requestConfirmation.swift */; };
 		DF65D6F92BA1681D008EB854 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = DF65D6F82BA1681D008EB854 /* FirebaseDatabase */; };
@@ -124,7 +121,6 @@
 		0FAA9BE62B68B97600C0A82D /* quickInfoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quickInfoCard.swift; sourceTree = "<group>"; };
 		0FAA9BEB2B68CA9400C0A82D /* reviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reviewCard.swift; sourceTree = "<group>"; };
 		0FAA9BF12B68D32700C0A82D /* ProfileInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInputView.swift; sourceTree = "<group>"; };
-		0FDA44782B68D58D006F1418 /* MyTimetablePageSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTimetablePageSwiftUIView.swift; sourceTree = "<group>"; };
 		0FDA447B2B68D5EC006F1418 /* TimeTableCardSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTableCardSwiftUIView.swift; sourceTree = "<group>"; };
 		0FDA44852B68FDC2006F1418 /* accentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accentHeader.swift; sourceTree = "<group>"; };
 		0FDA44882B6903CC006F1418 /* accentClassViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accentClassViewHeader.swift; sourceTree = "<group>"; };
@@ -139,7 +135,6 @@
 		B1A9E3BA2B6BE8A100324817 /* loginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginView.swift; sourceTree = "<group>"; };
 		B1A9E3BD2B6BF0F600324817 /* accentLongHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accentLongHeader.swift; sourceTree = "<group>"; };
 		B1A9E3BF2B6C097500324817 /* signUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signUpView.swift; sourceTree = "<group>"; };
-		B1A9E3C22B6C9AEE00324817 /* classMockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = classMockData.swift; sourceTree = "<group>"; };
 		B1A9E3C42B6CA32300324817 /* gradient header.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "gradient header.swift"; sourceTree = "<group>"; };
 		B1A9E3C82B6CB3FD00324817 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		B1A9E3CA2B6CB5AA00324817 /* timetablesample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = timetablesample.swift; sourceTree = "<group>"; };
@@ -147,7 +142,6 @@
 		DF046C4F2B9E0442005C9EB2 /* ReviewDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReviewDetails.swift; path = linkTutor/Screens/Rating/ReviewDetails.swift; sourceTree = SOURCE_ROOT; };
 		DF07AB2B2BA40B6D00CF4EF3 /* UserDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
 		DF0A3FB82B9B9E3E00B1DA6F /* skilltype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = skilltype.swift; path = linkTutor/Screens/firebaseModelData/skilltype.swift; sourceTree = SOURCE_ROOT; };
-		DF0A3FBE2B9C617300B1DA6F /* SkillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SkillView.swift; path = linkTutor/Screens/firebaseModelData/SkillView.swift; sourceTree = SOURCE_ROOT; };
 		DF42B1B62BA318AA00EAB98E /* classLandingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = classLandingPage.swift; sourceTree = "<group>"; };
 		DF578C802BA24BAB005D0CA1 /* requestConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestConfirmation.swift; sourceTree = "<group>"; };
 		DF65DD282B997C9E0059C434 /* newPassword.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newPassword.swift; sourceTree = "<group>"; };
@@ -299,7 +293,6 @@
 				DFFA21DE2BA1900C00CDFBD6 /* OnboardingPage */,
 				0F830E462B7908C10091EA77 /* llistClassesScreenModel */,
 				DFFA21DC2BA18FD200CDFBD6 /* firebaseModelData */,
-				0FDA44782B68D58D006F1418 /* MyTimetablePageSwiftUIView.swift */,
 				DF335F9A2BA161D800565E77 /* Rating */,
 			);
 			path = Screens;
@@ -411,7 +404,6 @@
 		B1A9E3C12B6C9AD800324817 /* MockData */ = {
 			isa = PBXGroup;
 			children = (
-				B1A9E3C22B6C9AEE00324817 /* classMockData.swift */,
 				DFB3857E2B9AC0D6003BCDC3 /* TeachersBasicData.swift */,
 			);
 			path = MockData;
@@ -439,7 +431,6 @@
 			children = (
 				DF0A3FB82B9B9E3E00B1DA6F /* skilltype.swift */,
 				DF046C4D2B9E0373005C9EB2 /* TeacherDetails.swift */,
-				DF0A3FBE2B9C617300B1DA6F /* SkillView.swift */,
 			);
 			path = firebaseModelData;
 			sourceTree = "<group>";
@@ -635,7 +626,6 @@
 				0FDA447C2B68D5EC006F1418 /* TimeTableCardSwiftUIView.swift in Sources */,
 				DF42B1B72BA318AA00EAB98E /* classLandingPage.swift in Sources */,
 				B1A9E3C52B6CA32300324817 /* gradient header.swift in Sources */,
-				DF0A3FBF2B9C617400B1DA6F /* SkillView.swift in Sources */,
 				DF07AB2C2BA40B6D00CF4EF3 /* UserDetails.swift in Sources */,
 				0FDA44892B6903CC006F1418 /* accentClassViewHeader.swift in Sources */,
 				0F28B0FF2B67FC0800E7E47F /* searchHeader.swift in Sources */,
@@ -655,7 +645,6 @@
 				DFCC35F92B9FA7E10087BD00 /* AuthViewModel.swift in Sources */,
 				0FDA44862B68FDC2006F1418 /* accentHeader.swift in Sources */,
 				0F830E452B7907B90091EA77 /* allPopularCard.swift in Sources */,
-				0FDA44792B68D58D006F1418 /* MyTimetablePageSwiftUIView.swift in Sources */,
 				0F5E94002B6549F000212922 /* ContentView.swift in Sources */,
 				DF65DD292B997C9E0059C434 /* newPassword.swift in Sources */,
 				0F5E93FE2B6549F000212922 /* linkTutorApp.swift in Sources */,
@@ -664,7 +653,6 @@
 				0FDA448B2B6911A3006F1418 /* classLandingScrollable.swift in Sources */,
 				DF046C502B9E0442005C9EB2 /* ReviewDetails.swift in Sources */,
 				0F5E94392B66568000212922 /* appFonts.swift in Sources */,
-				B1A9E3C32B6C9AEE00324817 /* classMockData.swift in Sources */,
 				0FAA9BE72B68B97600C0A82D /* quickInfoCard.swift in Sources */,
 				DFFA21EE2BA1D3F900CDFBD6 /* RequestSent.swift in Sources */,
 				DFFA21F02BA1D40C00CDFBD6 /* RequestSentCard.swift in Sources */,

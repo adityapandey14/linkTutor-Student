@@ -1,8 +1,12 @@
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct CalendarView: View {
     @StateObject var viewModel = RequestListViewModel()
     @State private var selectedDate: Date = Date()
+    let userId = Auth.auth().currentUser?.uid
+
     
     let calendar = Calendar.current
     
@@ -25,9 +29,10 @@ struct CalendarView: View {
 
                 
                 if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
-                    ForEach(classesForSelectedDate, id: \.id) { enrolledClass in
+                    ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
                         calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
                     }
+
                 } else {
                     Text("No classes found")
                         .foregroundColor(.gray)
@@ -43,9 +48,13 @@ struct CalendarView: View {
                 
                 ScrollView {
                     
-                    if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
-                        ForEach(classesForSelectedDate, id: \.id) { enrolledClass in
-                            calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                    if let classesForSelectedDate = classesForNextToSelectedDate(), !classesForSelectedDate.isEmpty {
+                        if let userId = Auth.auth().currentUser?.uid {
+                            ForEach(classesForSelectedDate, id: \.id) { enrolledClass in
+                                if enrolledClass.studentUid == userId {
+                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                                }
+                            }
                         }
                     } else {
                         Text("No classes found")
@@ -90,6 +99,13 @@ struct CalendarView: View {
              enrolledClass.week.contains(formattedWeekday(for: selectedDate))
          }
      }
+    
+    func classesForNextToSelectedDate() -> [EnrolledStudent]? {
+         return viewModel.enrolledStudents.filter { enrolledClass in
+             enrolledClass.week.contains(formattedWeekday(for: selectedDate.addingTimeInterval(24 * 60 * 60)))
+         }
+     }
+    
 }
 
 struct CalendarView_Previews: PreviewProvider {

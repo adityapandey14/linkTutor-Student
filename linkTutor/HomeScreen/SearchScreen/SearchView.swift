@@ -19,32 +19,23 @@ struct SearchView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
-            List {
+            VStack {
                 ForEach(viewModel.skillTypes) { skillType in
                     VStack(alignment: .leading) {
-                 
-                        ForEach(skillType.skillOwnerDetails.filter{(self.searchText.isEmpty ? true : $0.className.localizedCaseInsensitiveContains(self.searchText))}  , id: \.id) { detail in
+                        ForEach(skillType.skillOwnerDetails.filter { self.searchText.isEmpty ? true : $0.className.localizedCaseInsensitiveContains(self.searchText) }, id: \.id) { detail in
                             VStack(alignment: .leading) {
-                                // Only print the class name
                                 NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid,
                                                                               academy: detail.academy,
                                                                               skillUid: detail.skillUid,
                                                                               skillOwnerUid: detail.id,
-                                                                             className: detail.className,
-                                                                             startTime: detail.startTime,
-                                                                             endTime: detail.endTime, week: detail.week)) {
-                                
-                                
-                                Text("Class Name: \(detail.className)")
-                                    .padding()
-                            }
-                                    
-                                    
+                                                                              className: detail.className,
+                                                                              startTime: detail.startTime,
+                                                                              endTime: detail.endTime, week: detail.week)) {
+                                    Text("Class Name: \(detail.className)")
+                                        .padding()
                                 }
-                                
                             }
-                        
-                        
+                        }
                     }
                     .padding()
                     .onAppear() {
@@ -52,9 +43,10 @@ struct SearchView: View {
                     }
                 }
             }
-            .onAppear(){
+            .onAppear() {
                 viewModel.fetchSkillTypes()
             }
+
         }
     }
 }
