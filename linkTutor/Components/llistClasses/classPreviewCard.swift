@@ -44,9 +44,9 @@ struct classPreviewCard: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Text("\(academy)")
+                    Text("\(className.uppercased())")
                         .font(.headline)
-                    Text("by \(className)")
+                    Text("by \(teacherDetail.fullName)")
                         .font(.subheadline)
                     Text("\(teacherDetail.city)")
                     

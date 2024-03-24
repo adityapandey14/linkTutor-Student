@@ -54,7 +54,7 @@ struct listClassesScreen: View {
                             ForEach(skillTypeDetails.skillOwnerDetails) { detail in
                                 if let teacherDetailIndex = teacherViewModel.teacherDetails.firstIndex(where: { $0.id == detail.teacherUid }) {
                                     let teacherDetail = teacherViewModel.teacherDetails[teacherDetailIndex]
-                                    NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid, academy: detail.academy , skillUid: detail.skillUid , skillOwnerUid: detail.id, className: detail.className, startTime: detail.startTime, endTime: detail.endTime, week: detail.week ,  mode : detail.mode)) {
+                                    NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid, academy: detail.academy , skillUid: detail.skillUid , skillOwnerUid: detail.id, className: detail.className, startTime: detail.startTime, endTime: detail.endTime, week: detail.week ,  mode : detail.mode , teacherDetail : teacherDetail , price : detail.price)) {
                                         
                                         classPreviewCard(academy: detail.academy, className: detail.className, phoneNumber: 123456789 ,  price: Int(detail.price), teacherUid: detail.teacherUid, teacherDetail: teacherDetail)
                                     }

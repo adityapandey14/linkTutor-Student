@@ -67,6 +67,7 @@
 		DF8BA3A42BA16B7B00B43FB6 /* RatingFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8BA3A32BA16B7B00B43FB6 /* RatingFormView.swift */; };
 		DFB3857F2B9AC0D6003BCDC3 /* TeachersBasicData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB3857E2B9AC0D6003BCDC3 /* TeachersBasicData.swift */; };
 		DFCC35F92B9FA7E10087BD00 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCC35F82B9FA7E10087BD00 /* AuthViewModel.swift */; };
+		DFD67B412BB00E47004BCFCA /* enrolledClassLandingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD67B402BB00E47004BCFCA /* enrolledClassLandingPage.swift */; };
 		DFD7679D2B9DDF6300AD29C9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFD7679C2B9DDF6300AD29C9 /* GoogleService-Info.plist */; };
 		DFFA21EE2BA1D3F900CDFBD6 /* RequestSent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFA21ED2BA1D3F900CDFBD6 /* RequestSent.swift */; };
 		DFFA21F02BA1D40C00CDFBD6 /* RequestSentCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFA21EF2BA1D40C00CDFBD6 /* RequestSentCard.swift */; };
@@ -148,6 +149,7 @@
 		DF8BA3A32BA16B7B00B43FB6 /* RatingFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RatingFormView.swift; path = ../RatingFormView.swift; sourceTree = "<group>"; };
 		DFB3857E2B9AC0D6003BCDC3 /* TeachersBasicData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeachersBasicData.swift; sourceTree = "<group>"; };
 		DFCC35F82B9FA7E10087BD00 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		DFD67B402BB00E47004BCFCA /* enrolledClassLandingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enrolledClassLandingPage.swift; sourceTree = "<group>"; };
 		DFD7679C2B9DDF6300AD29C9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DFFA21ED2BA1D3F900CDFBD6 /* RequestSent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSent.swift; sourceTree = "<group>"; };
 		DFFA21EF2BA1D40C00CDFBD6 /* RequestSentCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestSentCard.swift; sourceTree = "<group>"; };
@@ -468,6 +470,7 @@
 				DFFA21EF2BA1D40C00CDFBD6 /* RequestSentCard.swift */,
 				DFFA21F12BA1D42800CDFBD6 /* enrolledSubjectCard.swift */,
 				DFFA21F32BA1D43100CDFBD6 /* enrolledSubjectList.swift */,
+				DFD67B402BB00E47004BCFCA /* enrolledClassLandingPage.swift */,
 			);
 			path = EnrolledSubject;
 			sourceTree = "<group>";
@@ -656,6 +659,7 @@
 				0FAA9BE72B68B97600C0A82D /* quickInfoCard.swift in Sources */,
 				DFFA21EE2BA1D3F900CDFBD6 /* RequestSent.swift in Sources */,
 				DFFA21F02BA1D40C00CDFBD6 /* RequestSentCard.swift in Sources */,
+				DFD67B412BB00E47004BCFCA /* enrolledClassLandingPage.swift in Sources */,
 				0F5E94352B66369900212922 /* sectionHeader.swift in Sources */,
 				0F830E432B7907980091EA77 /* listClassesScreeenModel().swift in Sources */,
 				B1A9E3BB2B6BE8A200324817 /* loginView.swift in Sources */,
