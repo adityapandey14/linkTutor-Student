@@ -15,31 +15,46 @@ struct SearchView: View {
     var body: some View {
         VStack {
             TextField("Search", text: $searchText)
-                .padding(.horizontal)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+                .padding(5)
+                .padding(.leading)
+                .background(Color.elavated)
+//                .padding(.leading)
+                .textFieldStyle(PlainTextFieldStyle())
+                .cornerRadius(8)
+                .frame(maxWidth: .infinity)
             
-            VStack {
-                ForEach(viewModel.skillTypes) { skillType in
-                    VStack(alignment: .leading) {
-                        ForEach(skillType.skillOwnerDetails.filter { self.searchText.isEmpty ? true : $0.className.localizedCaseInsensitiveContains(self.searchText) }, id: \.id) { detail in
-                            VStack(alignment: .leading) {
-                                NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid,
-                                                                              academy: detail.academy,
-                                                                              skillUid: detail.skillUid,
-                                                                              skillOwnerUid: detail.id,
-                                                                              className: detail.className,
-                                                                              startTime: detail.startTime,
-                                                                              endTime: detail.endTime, week: detail.week)) {
-                                    Text("Class Name: \(detail.className)")
-                                        .padding()
+            ScrollView{
+                VStack {
+                    ForEach(viewModel.skillTypes) { skillType in
+                        VStack(alignment: .leading) {
+                            ForEach(skillType.skillOwnerDetails.filter { self.searchText.isEmpty ? true : $0.className.localizedCaseInsensitiveContains(self.searchText) }, id: \.id) { detail in
+                                VStack(alignment: .leading) {
+                                    NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid,
+                                                                                 academy: detail.academy,
+                                                                                 skillUid: detail.skillUid,
+                                                                                 skillOwnerUid: detail.id,
+                                                                                 className: detail.className,
+                                                                                 startTime: detail.startTime,
+                                                                                 endTime: detail.endTime, week: detail.week , mode : detail.mode)) {
+                                        VStack{
+                                            HStack{
+                                                Image(systemName: "magnifyingglass")
+                                                    .foregroundStyle(Color.myGray)
+                                                Text("\(detail.className) by \(detail.academy)")
+                                                    .padding()
+                                                Spacer()
+                                            }
+                                            .foregroundStyle(Color.white).opacity(0.7)
+                                            Divider()
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                    .padding()
-                    .onAppear() {
-                        viewModel.fetchSkillOwnerDetails(for: skillType)
+                        .padding()
+                        .onAppear() {
+                            viewModel.fetchSkillOwnerDetails(for: skillType)
+                        }
                     }
                 }
             }
@@ -48,6 +63,8 @@ struct SearchView: View {
             }
 
         }
+        .padding()
+        .background(Color.background)
     }
 }
 

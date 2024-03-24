@@ -12,12 +12,13 @@ struct classLandingPage: View {
     var startTime : Timestamp
     var endTime : Timestamp
     var week : [String]
+    var mode : String
   
 
    
     //This variable to automatically refresh page
 
-    
+    @State private var isCopied = false
     @State private var startTimeString = ""
     @State private var endTimeString = ""
     
@@ -34,7 +35,7 @@ struct classLandingPage: View {
 
     var body: some View {
         NavigationStack {
-            ZStack {
+            VStack {
                 VStack {
                     // Header
                     HStack {
@@ -50,6 +51,7 @@ struct classLandingPage: View {
                                     .font(AppFont.mediumReg)
                             }
                         }
+                        .padding(.horizontal)
                         Spacer()
                     }
 
@@ -62,15 +64,13 @@ struct classLandingPage: View {
                                     Text("4.0 ⭐️")
                                         .font(AppFont.smallReg)
                                         .padding([.top, .bottom], 4)
-                                        .padding([.leading, .trailing], 8)
-                                        .foregroundStyle(Color.black)
-                                        .background(.white)
-                                        .cornerRadius(50)
-                                        .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 12)
+                                        .padding([.leading, .trailing], 12)
+                                        .background(Color.elavated)
+                                        .cornerRadius(10)
                                     Text("40 reviews")
                                         .font(AppFont.smallReg)
-                                        .padding(.leading)
-                                        .foregroundColor(.gray)
+//                                        .padding(.leading)
+                                        .foregroundColor(.white).opacity(0.7)
                                     Spacer()
                                 }
 
@@ -127,7 +127,7 @@ struct classLandingPage: View {
                                                 .padding(10)
                                                 .padding([.leading, .trailing], 20)
                                         }
-                                        .background(Color.green)
+                                        .background(Color.accent)
                                         .cornerRadius(20)
                                         .padding([.top, .bottom], 10)
                                     }
@@ -150,7 +150,7 @@ struct classLandingPage: View {
                                         Image(systemName: "phone.fill")
                                             .font(.system(size: 17))
 
-                                        Text("\(teacherDetails.phoneNumber)")
+                                        Text(String("\(teacherDetails.phoneNumber)"))
                                             .font(AppFont.actionButton)
                                     }
                                     .padding([.top, .bottom], 6)
@@ -158,6 +158,19 @@ struct classLandingPage: View {
                                     .background(Color.phoneAccent)
                                     .foregroundStyle(Color.black)
                                     .cornerRadius(50)
+//                                    .onTapGesture {
+//                                        if let phoneURL = URL(string: "tel:\(teacherDetails.phoneNumber)") {
+//                                                        UIApplication.shared.open(phoneURL)
+//                                                    }
+//                                                }
+                                    .onTapGesture {
+                                        let phoneNumberString = "\(teacherDetails.phoneNumber)"
+                                        UIPasteboard.general.string = phoneNumberString
+                                        isCopied = true
+                                    }
+                                    .alert(isPresented: $isCopied) {
+                                        Alert(title: Text("Copied!"), message: Text("Phone number copied to clipboard."), dismissButton: .default(Text("OK")))
+                                    }
 
                                     HStack {
                                         Image(systemName: "message.fill")
@@ -170,13 +183,16 @@ struct classLandingPage: View {
                                     .background(Color.messageAccent)
                                     .foregroundStyle(Color.black)
                                     .cornerRadius(50)
+                                    .onTapGesture {
+                                        openMessagesApp(withPhoneNumber: String(teacherDetails.phoneNumber))
+                                    }
                                     Spacer()
                                 }
                                 .padding([.top, .bottom], 10)
 
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        Text("Mode")
+                                        Text("\(mode)")
                                             .font(AppFont.smallSemiBold)
                                             .padding(.bottom, 5)
                                         VStack {
@@ -188,14 +204,7 @@ struct classLandingPage: View {
                                                     .foregroundColor(.gray)
                                                 Spacer()
                                             }.padding(5)
-                                            HStack {
-                                                Image(systemName: "checkmark")
-                                                    .font(.system(size: 20))
-                                                Text("Offline")
-                                                    .font(AppFont.smallReg)
-                                                    .foregroundColor(.gray)
-                                                Spacer()
-                                            }.padding(5)
+                                      
                                         }
                                     }
                                     Spacer()
@@ -268,12 +277,16 @@ struct classLandingPage: View {
             endTimeString = dateFormatter.string(from: endDate)
         }
     
-   
+    private func openMessagesApp(withPhoneNumber phoneNumber: String) {
+            let smsUrlString = "sms:\(phoneNumber)"
+            guard let smsUrl = URL(string: smsUrlString) else { return }
+            UIApplication.shared.open(smsUrl)
+        }
     
 }
 
 #Preview {
-    classLandingPage( teacherUid: "Teacher Uid", academy: "Academy", skillUid: "SkillUid", skillOwnerUid: "SkillOwnerUid", className: "ClassName", startTime: Timestamp(), endTime: Timestamp(), week: ["week"] )
+    classLandingPage( teacherUid: "Teacher Uid", academy: "Academy", skillUid: "SkillUid", skillOwnerUid: "SkillOwnerUid", className: "ClassName", startTime: Timestamp(), endTime: Timestamp(), week: ["week"] , mode : "mode")
 }
 
 

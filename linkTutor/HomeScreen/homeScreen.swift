@@ -81,7 +81,7 @@ struct homeScreen: View{
                         //explore classes cards
                         allPopularCard()
                         
-                        Spacer().frame(height: 150)
+                        Spacer().frame(height: 130)
                         
                         HStack{
                             Spacer()
@@ -91,7 +91,7 @@ struct homeScreen: View{
                             Spacer()
                         }
                         
-                        Spacer().frame(height: 30)
+                        Spacer().frame(height: 100)
                     }
                 }
                     .edgesIgnoringSafeArea(.bottom)

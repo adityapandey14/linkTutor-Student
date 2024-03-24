@@ -17,7 +17,7 @@ struct TeacherDetails: Identifiable, Codable, Equatable {
     var imageUrl: String
 }
 
-class TeacherViewModel: ObservableObject {
+class TeacherViewModel: ObservableObject  {
     @Published var teacherDetails = [TeacherDetails]()
     private let db = Firestore.firestore()
     static let shared = TeacherViewModel()

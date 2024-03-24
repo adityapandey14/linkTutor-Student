@@ -39,7 +39,7 @@ struct enrolledSubjectCard: View {
                         
                     }) {
                         Text("Unenroll")
-                            .font(AppFont.smallReg)
+                            .font(AppFont.actionButton)
                             .frame(minWidth: 90, minHeight: 30)
                             .background(Color.red)
                             .foregroundColor(.white)

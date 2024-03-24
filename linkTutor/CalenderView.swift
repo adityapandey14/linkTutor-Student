@@ -16,58 +16,66 @@ struct CalendarView: View {
                 .font(AppFont.largeBold)
                 .padding()
             
+            //select date
             DatePicker("Select Date", selection: $selectedDate, displayedComponents: [.date])
                             .datePickerStyle(CompactDatePickerStyle())
                             .padding(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                            .background(Color.gray.opacity(0.1))
-
-            Text(dateDescription(for: selectedDate))
-                            .font(.headline)
-                            .padding()
+                            .background(Color.elavated)
+                            .cornerRadius(10)
+            
+            //the timetables
             
             ScrollView{
-
-                
-                if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
-                    ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
-                        calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
-                    }
-
-                } else {
-                    Text("No classes found")
-                        .foregroundColor(.gray)
+                VStack(alignment: .leading){
+                    Text(dateDescription(for: selectedDate))
+                        .font(.headline)
                         .padding()
-                }
-            }
-
-            
-            if Calendar.current.startOfDay(for: selectedDate) == Calendar.current.startOfDay(for: Date()) {
-                Text(dateDescription(for: selectedDate.addingTimeInterval(24 * 60 * 60)))
-                                .font(.headline)
-                                .padding()
-                
-                ScrollView {
                     
-                    if let classesForSelectedDate = classesForNextToSelectedDate(), !classesForSelectedDate.isEmpty {
-                        if let userId = Auth.auth().currentUser?.uid {
-                            ForEach(classesForSelectedDate, id: \.id) { enrolledClass in
-                                if enrolledClass.studentUid == userId {
-                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                    VStack(spacing: 10){
+                        
+                        
+                        if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
+                            ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
+                                calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                            }
+                            
+                        } else {
+                            Text("No classes found")
+                                .foregroundColor(.gray)
+                                .padding()
+                        }
+                    }
+                    
+                    
+                    if Calendar.current.startOfDay(for: selectedDate) == Calendar.current.startOfDay(for: Date()) {
+                        Text(dateDescription(for: selectedDate.addingTimeInterval(24 * 60 * 60)))
+                            .font(.headline)
+                            .padding()
+                        
+                        VStack(spacing: 10) {
+                            
+                            if let classesForSelectedDate = classesForNextToSelectedDate(), !classesForSelectedDate.isEmpty {
+                                if let userId = Auth.auth().currentUser?.uid {
+                                    ForEach(classesForSelectedDate, id: \.id) { enrolledClass in
+                                        if enrolledClass.studentUid == userId {
+                                            calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                                        }
+                                    }
                                 }
+                            } else {
+                                Text("No classes found")
+                                    .foregroundColor(.gray)
+                                    .padding()
                             }
                         }
-                    } else {
-                        Text("No classes found")
-                            .foregroundColor(.gray)
-                            .padding()
+                        
                     }
                 }
-
             }
-            
             Spacer()
         }
         .padding()
+        .background(Color.background)
         .onAppear {
             viewModel.fetchEnrolledStudents()
         }
@@ -85,11 +93,11 @@ struct CalendarView: View {
         let selectedDay = Calendar.current.startOfDay(for: date)
         
         if selectedDay == today {
-            return "Today, Day: \(formattedWeekday(for: date))"
+            return "Today, \(formattedWeekday(for: date))"
         } else if selectedDay == tomorrow {
-            return "Tomorrow, Day: \(formattedWeekday(for: date))"
+            return "Tomorrow, \(formattedWeekday(for: date))"
         } else {
-            return "Selected Date: \(formattedWeekday(for: date))"
+            return "Selected \(formattedWeekday(for: date))"
         }
         
     }
