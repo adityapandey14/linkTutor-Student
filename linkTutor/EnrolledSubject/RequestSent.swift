@@ -19,7 +19,7 @@ struct RequestSent: View {
         NavigationStack {
             VStack {
                 HStack{
-                    Text("Request")
+                    Text("Requests")
                         .font(AppFont.largeBold)
                     Spacer()
                 }

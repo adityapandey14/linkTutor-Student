@@ -134,7 +134,7 @@ class AuthViewModel: ObservableObject {
     
     
     //To add New Review
-    func addReview(comment: String, documentUid: String, ratingStar: Int, skillOwnerDetailsUid: String, skillUid: String, teacherUid: String, time: String, className: String) async throws {
+    func addReview(comment: String, ratingStar: Int, skillOwnerDetailsUid: String, skillUid: String, teacherUid: String, className: String) async throws {
         let db = Firestore.firestore()
 
         // Fetch user asynchronously
@@ -146,14 +146,13 @@ class AuthViewModel: ObservableObject {
 
         // Create a dictionary representing the review data
         let data: [String: Any] = [
-            "academy": comment,
-            "id": documentUid,
+            "comment": comment,
             "className": className,
             "ratingStar": ratingStar,
             "skillOwnerDetailsUid": skillOwnerDetailsUid,
             "skillUid": skillUid,
             "teacherUid": teacherUid,
-            "time": time,
+            "time": Date(),
             "userId": userId
         ]
 
@@ -196,7 +195,7 @@ class AuthViewModel: ObservableObject {
      
      
   //    To Update Review
-    func updateReview(comment: String, documentUid: String, ratingStar: Int, skillOwnerDetailsUid: String, skillUid: String, teacherUid: String, time: String, className: String) async throws {
+    func updateReview(comment: String, documentUid: String, ratingStar: Int, skillOwnerDetailsUid: String, skillUid: String, teacherUid: String, className: String, userId : String) async throws {
         let db = Firestore.firestore()
 
         // Fetch user asynchronously
@@ -209,12 +208,12 @@ class AuthViewModel: ObservableObject {
         // Create a dictionary representing the updated data
         let updatedData: [String: Any] = [
             "comment": comment,
-            "id": documentUid,
+
             "ratingStar": ratingStar,
             "skillOwnerDetailsUid": skillOwnerDetailsUid,
             "skillUid": skillUid,
             "teacherUid": teacherUid,
-            "time": time,
+            "time": Date(),
             "userId": userId
         ]
 

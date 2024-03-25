@@ -68,7 +68,7 @@ struct homeScreen: View{
                         
                         
                         //Explore skills section
-                        SectionHeader(sectionName: "Enrolled Classes", fileLocation: allPopularCard())
+                        SectionHeader(sectionName: "Explore Skills!", fileLocation: allPopularCard())
                             .padding(.horizontal)
                         
                         

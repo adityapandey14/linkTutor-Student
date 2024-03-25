@@ -201,19 +201,39 @@ struct classLandingPage: View {
 
                                 HStack {
                                     VStack(alignment: .leading) {
-                                        Text("\(mode)")
-                                            .font(AppFont.smallSemiBold)
+                                        Text("Mode")
+                                            .font(AppFont.mediumSemiBold)
                                             .padding(.bottom, 5)
+                                            .padding(.top)
                                         VStack {
-                                            HStack {
-                                                Image(systemName: "checkmark")
-                                                    .font(.system(size: 20))
-                                                Text("Online")
-                                                    .font(AppFont.smallReg)
-                                                    .foregroundColor(.gray)
-                                                Spacer()
-                                            }.padding(5)
-                                      
+                                            if mode == "both" {
+                                                HStack {
+                                                    Image(systemName: "checkmark")
+                                                        .font(.system(size: 20))
+                                                    Text("Online")
+                                                        .font(AppFont.smallReg)
+                                                        .foregroundColor(.gray)
+                                                    Spacer()
+                                                }.padding(5)
+                                                HStack {
+                                                    Image(systemName: "checkmark")
+                                                        .font(.system(size: 20))
+                                                    Text("Offline")
+                                                        .font(AppFont.smallReg)
+                                                        .foregroundColor(.gray)
+                                                    Spacer()
+                                                }.padding(5)
+                                            }
+                                            else{
+                                                HStack {
+                                                    Image(systemName: "checkmark")
+                                                        .font(.system(size: 20))
+                                                    Text("\(mode)")
+                                                        .font(AppFont.smallReg)
+                                                        .foregroundColor(.gray)
+                                                    Spacer()
+                                                }.padding(5)
+                                            }
                                         }
                                     }
                                     Spacer()
@@ -222,8 +242,9 @@ struct classLandingPage: View {
                                 HStack {
                                     VStack(alignment: .leading) {
                                         Text("Reviews")
-                                            .font(AppFont.smallSemiBold)
+                                            .font(AppFont.mediumSemiBold)
                                             .padding(.bottom, 5)
+                                            .padding(.top)
 
                                         ForEach(reviewViewModel.reviewDetails.filter { $0.skillUid == "\(skillUid)" && $0.teacherUid == "\(teacherUid)" && $0.skillOwnerDetailsUid == "\(skillOwnerUid)" }) { teacherDetail in
                                             

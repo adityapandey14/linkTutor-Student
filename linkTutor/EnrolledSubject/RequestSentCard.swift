@@ -15,7 +15,7 @@ struct RequestSentCard: View {
     @State var showingUpdateCourse = false
 //    @EnvironmentObject var viewModel: AuthViewModel
     @ObservedObject var viewModel = RequestListViewModel()
-    
+    @State private var showDeleteAlert = false
     
     var body: some View{
         NavigationStack{
@@ -33,10 +33,10 @@ struct RequestSentCard: View {
                     
                     Button(action: {
                         // Delete button action
-                        Task {
-                            await viewModel.deleteEnrolled(id: id)
-                        }
-                        
+//                        Task {
+//                            await viewModel.deleteEnrolled(id: id)
+//                        }
+                        showDeleteAlert.toggle()
                     }) {
                         Text("Delete")
                             .font(AppFont.actionButton)
@@ -45,6 +45,18 @@ struct RequestSentCard: View {
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
+                    .alert(isPresented: $showDeleteAlert) {
+                                Alert(
+                                    title: Text("Delete request"),
+                                    message: Text("Are you sure?"),
+                                    primaryButton: .destructive(Text("Delete")) {
+                                        Task {
+                                            await viewModel.deleteEnrolled(id: id)
+                                        }
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
                 }
                 Spacer()
             }
@@ -60,5 +72,3 @@ struct RequestSentCard: View {
 #Preview {
     RequestSentCard(teacherName: "Obama", phoneNumber: 1234567890 , id: "1", className: "Science")
 }
-
-

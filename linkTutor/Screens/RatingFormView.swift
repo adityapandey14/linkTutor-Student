@@ -6,80 +6,100 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
 
 struct RatingFormView: View {
     @State private var rating: Int = 0
     @State private var feedback: String = ""
+    var className: String
+    var skillOwnerDetailsUId: String
+    var teacherUid: String
+    var skillUid: String
+    @EnvironmentObject var viewModel: AuthViewModel
+    @ObservedObject var reviewViewModel = ReviewViewModel()
+    @State private var showSubmitAlert = false
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        ZStack{
-        
-            Color(.background)
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
-            
-            VStack(alignment: .center, spacing: 20) {
-               
-                Text("Rate Your Experience")
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .padding(.top, 40)
+            VStack(alignment: .center) {
+                HStack{
+                    Spacer()
+                    Text("Rate Your Experience")
+                        .font(AppFont.mediumSemiBold)
+                        .foregroundStyle(Color.white)
+                    Spacer()
+                }
+                .padding(.bottom, 40)
                 
                 // Star Rating
                 HStack {
                     ForEach(1...5, id: \.self) { index in
-                        Image(systemName: index <= self.rating ? "star.fill" : "star")
-                            .resizable()
-                            .frame(width: 30, height: 30)
+                        Image(systemName: index <= self.rating ? "star.fill" : "star.fill")
+                            .font(.system(size: 25))
                             .foregroundColor(.yellow)
+                            .opacity(index <= self.rating ? 1.0 : 0.3)
                             .onTapGesture {
                                 self.rating = index
                             }
+                        
                     }
                 }
+                .padding(.bottom, 20)
                 
                 // Feedback TextField
-                TextField("Enter your feedback", text: $feedback)
+                TextField("Enter your feedback", text: $feedback, axis: .vertical)
+                    .lineLimit(5...10)
                     .padding()
-                    .background(Color(UIColor.systemGray5))
+                    .background(Color.elavated)
+                    .foregroundStyle(Color.white)
                     .cornerRadius(8)
-                    .padding(10)
 
+                Spacer()
                 
                 // Submit Button
                 Button(action: {
-                    self.submitRating()
+                    showSubmitAlert.toggle()
+                    presentationMode.wrappedValue.dismiss()
+                    Task {
+                        let userId = Auth.auth().currentUser?.uid
+                        
+                        try await viewModel.addReview(comment: feedback,
+                                                      ratingStar: rating,
+                                                      skillOwnerDetailsUid: skillOwnerDetailsUId,
+                                                      skillUid: skillUid,
+                                                      teacherUid: teacherUid,
+                                                      className: className)
+                    }
                 }) {
                     Text("Submit Rating")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                        .shadow(color: .black.opacity(0.1), radius: 10, x: 0, y: 12)
+                        .font(AppFont.mediumSemiBold)
+                        .foregroundColor(.black)
                 }
-                
-                Spacer()
+                .frame(width:250, height: 35)
+                .padding()
+                .background(Color.accent)
+                .cornerRadius(50)
+                .alert(isPresented: $showSubmitAlert) {
+                    Alert(
+                        title: Text("Thank you for your feedback!"),
+                        message: Text("Your review has been posted"),
+                        dismissButton: .default(Text("Okay"))
+                    )
+                }
             }
             .padding()
-        }
+            .background(Color.background)
     }
-        
-        func submitRating() {
-            // Handle rating submission logic here
-            print("Rating: \(rating)")
-            print("Feedback: \(feedback)")
-            // You can perform additional actions here, such as sending the data to a server.
-        }
-    }
-
+}
 
 struct RatingFormView_Previews: PreviewProvider {
     static var previews: some View {
-        RatingFormView()
+        RatingFormView(className: "className", skillOwnerDetailsUId: "skillOwnerDetailsUId", teacherUid: "teacherUid", skillUid: "skillUid")
     }
 }
 
 
 
-#Preview {
-    RatingFormView()
-}
+
+

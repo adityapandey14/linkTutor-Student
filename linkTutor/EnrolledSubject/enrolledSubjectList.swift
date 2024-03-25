@@ -10,41 +10,50 @@
 import SwiftUI
 import Firebase
 
-
-
 struct enrolledSubjectList: View {
     @StateObject var viewModel = RequestListViewModel()
     
-    
     var body: some View {
-        NavigationStack{
+        NavigationStack {
             VStack {
-                HStack{
+                HStack {
                     Text("Enrolled Subject")
                         .font(AppFont.largeBold)
                     Spacer()
                 }
+                
                 let userId = Auth.auth().currentUser?.uid
                 
-                VStack(spacing: 10){
-                    ForEach(viewModel.enrolledStudents.filter { $0.studentUid == userId  && $0.requestAccepted == 1 }, id: \.id) { student in
-                        enrolledSubjectCard(teacherName: student.teacherName, phoneNumber: student.teacherNumber, id: student.id, className: student.className)
-                    }
-                    .onAppear(){
-                        Task {
-                            await AuthViewModel().fetchUser()
-                        }
+                VStack(spacing: 10) {
+                    let filteredStudents = viewModel.enrolledStudents.filter { $0.studentUid == userId && $0.requestAccepted == 1 }
+                       
+                       ForEach(filteredStudents, id: \.id) { student in
+                           enrolledSubjectCard(teacherName: student.teacherName,
+                                               phoneNumber: student.teacherNumber,
+                                               id: student.id,
+                                               className: student.className,
+                                               skillOwnerDetailsUid: student.skillOwnerDetailsUid,
+                                               teacherUid: student.teacherUid,
+                                               skillUid: student.skillUid)
                     }
                 }
-//                .padding()
                 .onAppear {
-                    viewModel.fetchEnrolledStudents()
+                    Task {
+                        await viewModel.fetchEnrolledStudents()
+                    }
                 }
+                
                 Spacer()
-            } //vend
+            }
             .padding()
             .background(Color.background)
         }
+    }
+}
+
+struct enrolledSubjectList_Previews: PreviewProvider {
+    static var previews: some View {
+        enrolledSubjectList()
     }
 }
 
@@ -160,7 +169,3 @@ class RequestListViewModel: ObservableObject {
     }
 }
 
-
-#Preview {
-    enrolledSubjectList()
-}

@@ -44,17 +44,20 @@ struct reviewCard: View {
         VStack {
             HStack {
                 Text("\(String(repeating: "⭐️", count: reviewRating))")
+                    .font(AppFont.actionButton)
                 Spacer()
                 Text("\(time)")
+                    .font(AppFont.actionButton)
                     .foregroundStyle(.gray)
             }
             HStack {
                 Text("\(review)")
+                    .font(AppFont.smallReg)
                 Spacer()
             }
             .padding([.top, .bottom], 5)
             Divider()
-                .background(Color.black)
+                .background(Color.elavated)
         }
     }
 }

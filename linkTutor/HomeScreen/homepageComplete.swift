@@ -25,7 +25,7 @@ struct homepageComplete: View {
                 
                 RequestSent()
                     .tabItem {
-                        Label("Request" , systemImage: "shared.with.you")
+                        Label("Requests" , systemImage: "shared.with.you")
                     }
                 
                 enrolledSubjectList()
