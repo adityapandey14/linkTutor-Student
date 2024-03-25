@@ -68,18 +68,12 @@ struct homeScreen: View{
                         
                         
                         //Explore skills section
-                        HStack {
-                            Text("Explore Skills!")
-                                .font(AppFont.mediumSemiBold)
-                            Spacer()
-                        }
-                        .padding(.top, 30)
-                        .padding(.bottom, 15)
-                        .padding(.horizontal)
+                        SectionHeader(sectionName: "Enrolled Classes", fileLocation: allPopularCard())
+                            .padding(.horizontal)
                         
                         
                         //explore classes cards
-                        allPopularCard()
+                        allPopularCardHomePage()
                         
                         Spacer().frame(height: 130)
                         

@@ -21,16 +21,16 @@ struct newPassword: View {
             .padding()
             List {
                 VStack(alignment: .leading){
-                    Text("Password")
-                        .font(AppFont.mediumReg)
-                    SecureField("Password", text: $password)
-                        .cornerRadius(8)
+                    Section(header: CustomSectionHeader(title: "New password").foregroundColor(.white)){
+                        SecureField("Password", text: $password)
+                            .cornerRadius(8)
+                    }
+                    
                 }
                 .listRowBackground(Color.clear)
                 
                 VStack(alignment: .leading){
-                    Text("Confirm Password")
-                        .font(AppFont.mediumReg)
+                    Section(header: CustomSectionHeader(title: "Confirm password").foregroundColor(.white)){
                         SecureField("Password", text: $confirmPassword)
                             .cornerRadius(8)
                         
@@ -47,12 +47,15 @@ struct newPassword: View {
                                     .foregroundColor(Color(.systemRed))
                             }
                         }
+                    }
                 }
                 .padding(.top)
                 .listRowBackground(Color.clear)
             }
+            .listStyle(.insetGrouped)
             .background(Color.clear)
             .scrollContentBackground(.hidden)
+            
             HStack {
                 Spacer()
                 Button {

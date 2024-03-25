@@ -25,6 +25,7 @@ struct classLandingPage: View {
     @State private var isCopied = false
     @State private var startTimeString = ""
     @State private var endTimeString = ""
+    @State private var showAlert = false
     
     @ObservedObject var studentViewModel = StudentViewModel.shared
     
@@ -32,7 +33,7 @@ struct classLandingPage: View {
     @ObservedObject var teacherViewModel = TeacherViewModel.shared
     @ObservedObject var reviewViewModel = ReviewViewModel()
     @EnvironmentObject var viewModel: AuthViewModel
- 
+    
     
     
 
@@ -83,8 +84,9 @@ struct classLandingPage: View {
                                 HStack {
                                    //Enroll button link
                                     
-                                    NavigationLink(destination: requestConfirmation(), isActive: $showingUpdate) {
+//                                    NavigationLink(destination: requestConfirmation(), isActive: $showingUpdate) {
                                         Button(action: {
+                                            showAlert.toggle()
                                               print("Enrollment action")
 
                                                 var userId = Auth.auth().currentUser?.uid
@@ -134,8 +136,14 @@ struct classLandingPage: View {
                                         .background(Color.accent)
                                         .cornerRadius(20)
                                         .padding([.top, .bottom], 10)
-                                    }
-
+                                        .alert(isPresented: $showAlert) {
+                                                    Alert(
+                                                        title: Text("Request Sent"),
+                                                        message: Text("A request has been sent\nPlease wait for any updates"),
+                                                        dismissButton: .default(Text("Okay"))
+                                                    )
+                                                }
+//                                    }
                                     Spacer()
                                 }
                                 

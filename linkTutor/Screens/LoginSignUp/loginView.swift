@@ -110,6 +110,8 @@ struct loginView: View {
                 .background(Color.background)
                 .environment(\.colorScheme, .dark)
         }
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
     }
 }

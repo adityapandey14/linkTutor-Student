@@ -18,8 +18,7 @@ struct signUpView: View {
     @EnvironmentObject var viewModel : AuthViewModel
     
     var body: some View {
-        NavigationStack{
-            
+        NavigationView{
                 VStack{
                     //Linktutor
                     VStack(alignment: .leading){
@@ -158,6 +157,9 @@ struct signUpView: View {
                 .background(Color.background)
                 .environment(\.colorScheme, .dark)
         }
+        
+        .navigationBarTitle("")
+        .navigationBarHidden(true)
         .navigationBarBackButtonHidden()
     }
 }

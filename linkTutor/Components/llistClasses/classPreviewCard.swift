@@ -44,16 +44,22 @@ struct classPreviewCard: View {
                 }
                 
                 VStack(alignment: .leading) {
-                    Text("\(className.uppercased())")
-                        .font(.headline)
+                    Text("\(className)")
+                        .font(AppFont.mediumSemiBold)
                     Text("by \(teacherDetail.fullName)")
-                        .font(.subheadline)
-                    Text("\(teacherDetail.city)")
+                        .font(AppFont.smallReg)
+                    HStack{
+                        Image("locationLight")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text("\(teacherDetail.city)")
+                            .font(AppFont.smallReg)
+                    }
                     
                     //reviews
                     HStack {
                         Text("4.0 ⭐️")
-                            .padding([.top, .bottom], 4)
+                            .padding([.top, .bottom], 2)
                             .padding([.leading, .trailing], 8)
                             .background(Color.accent)
                             .foregroundColor(.black)
@@ -78,7 +84,7 @@ struct classPreviewCard: View {
                         .foregroundColor(.black)
                         .padding([.top, .bottom], 4)
                         .padding([.leading, .trailing], 12)
-                        .background(Color.blue)
+                        .background(Color.phoneAccent)
                         .cornerRadius(50)
                         .onTapGesture {
                             let phoneNumberString = "\(phoneNumber)"
@@ -97,10 +103,10 @@ struct classPreviewCard: View {
                 Spacer()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: 1700)
+        .frame(maxWidth: .infinity, maxHeight: 300)
         .padding()
         .foregroundColor(Color.white)
-        .background(Color.gray)
+        .background(Color.elavated)
         .cornerRadius(20)
     }
 }

@@ -13,6 +13,7 @@ struct enrolledSubjectCard: View {
     var id : String
     var className : String
     @State var showingUpdateCourse = false
+    @State var isButtonClicked = false
 //    @EnvironmentObject var viewModel: AuthViewModel
     @ObservedObject var viewModel = RequestListViewModel()
     
@@ -27,23 +28,42 @@ struct enrolledSubjectCard: View {
                         
                         Text("\(teacherName)")
                             .font(AppFont.smallReg)
+                        Spacer()
                     }
                     
                     Spacer()
-                    
-                    Button(action: {
-                        // Delete button action
-                        Task {
-                            await viewModel.deleteEnrolled(id: id)
+                    VStack{
+                        //REVIEW BUTTON
+                        
+                        NavigationLink(RatingFormView(), isActive: isButtonClicked) {
+                            Button(action:{
+                                
+                                isButtonClicked = true
+                            }){
+                                Text("Add review")
+                                    .font(AppFont.actionButton)
+                                    .foregroundColor(.white)
+                            }
+                            .frame(minWidth: 90, minHeight: 30)
+                            .background(Color.elavated).opacity(0.7)
+                            .cornerRadius(8)
+                            
                         }
                         
-                    }) {
-                        Text("Unenroll")
-                            .font(AppFont.actionButton)
-                            .frame(minWidth: 90, minHeight: 30)
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                        Button(action: {
+                            // Delete button action
+                            Task {
+                                await viewModel.deleteEnrolled(id: id)
+                            }
+                            
+                        }) {
+                            Text("Unenroll")
+                                .font(AppFont.actionButton)
+                                .foregroundColor(.white)
+                        }
+                        .frame(minWidth: 90, minHeight: 30)
+                        .background(Color.red)
+                        .cornerRadius(8)
                     }
                 }
                 Spacer()

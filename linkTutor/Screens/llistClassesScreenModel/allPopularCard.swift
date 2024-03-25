@@ -20,29 +20,34 @@ struct allPopularCard: View {
     
     var body: some View {
         NavigationStack{
-        //            VStack{
-        //                ScrollView(){
-                    VStack(alignment: .center, spacing: 15){
-                                ForEach(skillViewModel.skillTypes) { skillType in
-                                    let skillTypeName : String = skillType.id
-                                    NavigationLink(destination: listClassesScreen(skillType: skillType)){
-                                    popularClassCardV(skillId: skillTypeName.prefix(1).capitalized + skillTypeName.dropFirst(), iconName: "art")
-                                        
-                                    }
-                                
-                                    
-                                }
-                    
-                            }
-        //                }
-        //            }
-                    .padding(.horizontal)
-                    .edgesIgnoringSafeArea(.bottom)
-                    .background(Color.background)
-                    .environment(\.colorScheme, .dark)
-             
-                    }
+            VStack{
+                HStack{
+                    Text("Explore Skills!")
+                        .font(AppFont.largeBold)
+                    Spacer()
                 }
+                ScrollView{
+                    VStack(alignment: .center, spacing: 15){
+                        ForEach(skillViewModel.skillTypes) { skillType in
+                            let skillTypeName : String = skillType.id
+                            NavigationLink(destination: listClassesScreen(skillType: skillType)){
+                                popularClassCardV(skillId: skillTypeName.prefix(1).capitalized + skillTypeName.dropFirst(), iconName: "art")
+                                
+                            }
+                            
+                            
+                        }
+                        
+                    }//cards end
+                }
+                Spacer()
+            }
+            .padding(.horizontal)
+            .edgesIgnoringSafeArea(.bottom)
+            .background(Color.background)
+            .environment(\.colorScheme, .dark)
+        }
+    }
 }
 
 #Preview {
@@ -102,35 +107,37 @@ struct popularClassCardV: View{
 }
 
 
-struct allPopularCardH: View {
+struct allPopularCardHomePage: View {
     @ObservedObject var skillViewModel = SkillViewModel()
     @State private var selectedSkillType: SkillType?
     
+    
+    let columns : [GridItem] = [GridItem(.flexible()) ,GridItem(.flexible())]
+    
+    
     var body: some View {
         NavigationStack{
-            VStack{
-              
-                ScrollView(){
-                    HStack(spacing : 10){
+            VStack(alignment: .center, spacing: 15){
                         ForEach(skillViewModel.skillTypes) { skillType in
                             let skillTypeName : String = skillType.id
                             NavigationLink(destination: listClassesScreen(skillType: skillType)){
-                            popularClassCardV(skillId: skillTypeName.prefix(1).capitalized + skillTypeName.dropFirst(), iconName: "book")
-                           
+                            popularClassCardV(skillId: skillTypeName.prefix(1).capitalized + skillTypeName.dropFirst(), iconName: "art")
+                                
                             }
+                        
                             
                         }
-                        
+            
                     }
-                }
-            }
-            .padding()
+            .padding(.horizontal)
             .edgesIgnoringSafeArea(.bottom)
             .background(Color.background)
             .environment(\.colorScheme, .dark)
      
-                
             }
         }
 }
 
+#Preview{
+    allPopularCardHomePage()
+}

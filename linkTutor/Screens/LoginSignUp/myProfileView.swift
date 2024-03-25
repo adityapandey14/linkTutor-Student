@@ -76,7 +76,7 @@ struct myProfileView: View {
                                 .foregroundColor(.blue)
                                 .font(AppFont.actionButton)
                         }
-                        .fullScreenCover(isPresented: $showEditView) {
+                        .sheet(isPresented: $showEditView) {
                             ProfileInputView()
                         }
 //                        NavigationLink(destination: ProfileInputView()){
@@ -150,7 +150,6 @@ struct myProfileView: View {
                 }
                 //.frame(maxWidth: .infinity, alignment: .center)
                 
-                Spacer()
             }
             .padding()
             .background(Color.background)
