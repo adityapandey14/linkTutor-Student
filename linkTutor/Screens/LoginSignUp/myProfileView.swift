@@ -118,7 +118,9 @@ struct myProfileView: View {
                                     title: Text("Delete Account"),
                                     message: Text("Are you sure you want to delete your account?"),
                                     primaryButton: .destructive(Text("Delete")) {
+                                       
                                         viewModel.deleteAccount()
+                                       
                                         print("Account deleted")
                                     },
                                     secondaryButton: .cancel(Text("Cancel"))

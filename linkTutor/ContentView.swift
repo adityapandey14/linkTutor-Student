@@ -7,7 +7,7 @@ struct ContentView: View {
     var body: some View {
         //Imageview() use this for image upload and retrival
         Group {
-            if $viewModel.userSession != nil {
+            if $viewModel.userSession.wrappedValue != nil{
                 homepageComplete()
             } else {
                 loginView()

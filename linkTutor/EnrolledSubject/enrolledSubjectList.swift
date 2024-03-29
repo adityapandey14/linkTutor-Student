@@ -17,7 +17,7 @@ struct enrolledSubjectList: View {
         NavigationStack {
             VStack {
                 HStack {
-                    Text("Enrolled Subject")
+                    Text("Enrolled Classes")
                         .font(AppFont.largeBold)
                     Spacer()
                 }

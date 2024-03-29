@@ -9,6 +9,10 @@ struct homeScreen: View{
     
     @ObservedObject var skillViewModel = SkillViewModel()
     @State private var selectedSkillType: SkillType?
+    
+    @StateObject var viewModel1 = RequestListViewModel()
+    @State private var selectedDate: Date = Date()
+    let userId = Auth.auth().currentUser?.uid
    
     
     var body: some View{
@@ -57,14 +61,28 @@ struct homeScreen: View{
                 ScrollView(.vertical, showsIndicators: false){
                     VStack{
                         //Enrolled classes section
-                        SectionHeader(sectionName: "Enrolled Classes", fileLocation: enrolledSubjectList())
+                        SectionHeader(sectionName: "Todays Classes", fileLocation: enrolledSubjectList())
                             .onTapGesture {
                                 viewModel.enrolledClassFramework = enrolledClassVList(classdata: enrolledClassMockData.sampleClassData)
                             }
                             .padding(.horizontal)
                         
                         //enrolled classes cards
-                        enrolledClassList(classdata: enrolledClassMockData.sampleClassData)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
+                                    ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
+                                        calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                                    }
+                                    
+                                } else {
+                                    Text("No classes found")
+                                        .foregroundColor(.gray)
+                                        .padding()
+                                }
+                            }
+                        }
+                        .padding(.leading)
                         
                         
                         //Explore skills section
@@ -89,12 +107,27 @@ struct homeScreen: View{
                     }
                 }
                     .edgesIgnoringSafeArea(.bottom)
-            }
+            }//v end
             .background(Color.background)
             .environment(\.colorScheme, .dark)
         }
+//        .padding()
+        .background(Color.background)
+        .onAppear {
+            viewModel1.fetchEnrolledStudents()
+        }
     }
-        
+    func formattedWeekday(for date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        return dateFormatter.string(from: date)
+    }
+    
+    func classesForSelectedDate() -> [EnrolledStudent]? {
+         return viewModel1.enrolledStudents.filter { enrolledClass in
+             enrolledClass.week.contains(formattedWeekday(for: Date()))
+         }
+     }
 }
     
 

@@ -17,6 +17,7 @@ struct enrolledSubjectCard: View {
     var teacherUid: String
     var skillUid: String
     
+    @State private var showDeleteAlert = false
     @State var isButtonClicked = false
     @ObservedObject var viewModel = RequestListViewModel()
     
@@ -58,9 +59,10 @@ struct enrolledSubjectCard: View {
 //                        }
                         
                         Button(action: {
-                            Task {
-                                await viewModel.deleteEnrolled(id: id)
-                            }
+                            showDeleteAlert.toggle()
+//                            Task {
+//                                await viewModel.deleteEnrolled(id: id)
+//                            }
                         }) {
                             Text("Unenroll")
                                 .font(AppFont.actionButton)
@@ -69,6 +71,18 @@ struct enrolledSubjectCard: View {
                         .frame(minWidth: 90, minHeight: 30)
                         .background(Color.red)
                         .cornerRadius(8)
+                        .alert(isPresented: $showDeleteAlert) {
+                                    Alert(
+                                        title: Text("Unenroll from class"),
+                                        message: Text("Are you sure?"),
+                                        primaryButton: .destructive(Text("Delete")) {
+                                            Task {
+                                                await viewModel.deleteEnrolled(id: id)
+                                            }
+                                        },
+                                        secondaryButton: .cancel()
+                                    )
+                                }
                     }
                 }
                 Spacer()

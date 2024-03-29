@@ -18,6 +18,11 @@ protocol AuthenticationFormProtocol {
     var FormIsValid: Bool { get }
 }
 
+enum AuthError: Error {
+    case noCurrentUser
+    // Add other error cases as needed
+}
+
 @MainActor
 class AuthViewModel: ObservableObject {
     
@@ -70,9 +75,11 @@ class AuthViewModel: ObservableObject {
     
     func signOut() {
         do {
-            try Auth.auth().signOut() //signOUt user on backened
+          
+            try Auth.auth().signOut()
             self.userSession = nil   //wipes out user session and teakes us back to login screen
-            self.currentUser = nil   // wipes out current user data model
+            self.currentUser = nil//signOUt user on backened
+              // wipes out current user data model
         } catch {
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
@@ -108,6 +115,10 @@ class AuthViewModel: ObservableObject {
                     }
                 }
     }
+    
+
+    
+    
     func changePassword(password : String) {
         Task{
             
