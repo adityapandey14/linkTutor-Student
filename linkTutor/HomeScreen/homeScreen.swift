@@ -40,12 +40,13 @@ struct homeScreen: View{
                             
                             Spacer()
                         }
-                        .foregroundStyle(Color.myGray).opacity(0.6)
+                        .foregroundStyle(Color.gray).opacity(0.7)
                         .padding(3)
                         .padding(.leading, 10)
                         .frame(width: 370, height: 35)
                         .background(.ultraThinMaterial)
                         .cornerRadius(8)
+                       
                     }
                 }
                 .padding(.horizontal)
@@ -89,7 +90,6 @@ struct homeScreen: View{
                         SectionHeader(sectionName: "Explore Skills!", fileLocation: allPopularCard())
                             .padding(.horizontal)
                         
-                        
                         //explore classes cards
                         allPopularCardHomePage()
                         
@@ -109,7 +109,7 @@ struct homeScreen: View{
                     .edgesIgnoringSafeArea(.bottom)
             }//v end
             .background(Color.background)
-            .environment(\.colorScheme, .dark)
+            .environment(\.colorScheme, .light)
         }
 //        .padding()
         .background(Color.background)
@@ -128,6 +128,8 @@ struct homeScreen: View{
              enrolledClass.week.contains(formattedWeekday(for: Date()))
          }
      }
+    
+    
 }
     
 

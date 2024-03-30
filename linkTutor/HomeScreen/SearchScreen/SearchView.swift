@@ -11,6 +11,7 @@ struct SearchView: View {
     @State private var searchText = ""
     @ObservedObject var viewModel = SkillViewModel()
     @ObservedObject var teacherViewModel = TeacherViewModel.shared
+   
     
     var body: some View {
         VStack {
@@ -37,7 +38,7 @@ struct SearchView: View {
                                                                                  week: detail.week,
                                                                                  mode: detail.mode ,
                                                                              teacherDetail: teacherDetail,
-                                                                             price : detail.price)) {
+                                                                             price : detail.price, skillOnwerDetailsUid: detail.id)) {
                                     VStack {
                                         HStack {
                                             Image(systemName: "magnifyingglass")
@@ -46,7 +47,7 @@ struct SearchView: View {
                                                 .padding()
                                             Spacer()
                                         }
-                                        .foregroundStyle(Color.white).opacity(0.7)
+                                        .foregroundStyle(Color.black).opacity(0.7)
                                         Divider()
                                     }
                                 }
@@ -54,17 +55,29 @@ struct SearchView: View {
                         }
                     }
                     .padding()
-                    .onAppear {
+                    .onAppear() {
+                      
                         viewModel.fetchSkillOwnerDetails(for: skillType)
+                       
                     }
                 }
             }
-            .onAppear {
+            .onAppear() {
                 viewModel.fetchSkillTypes()
+                searchText = ""
             }
         }
         .padding()
         .background(Color.background)
+        .onAppear() {
+            viewModel.fetchSkillTypes()
+            Task {
+                await teacherViewModel.fetchTeacherDetails()
+            }
+           
+        }
+        
+        
     }
 }
 

@@ -4,10 +4,11 @@ import Firebase
 struct classPreviewCard: View {
     var academy: String
     var className: String
-    var phoneNumber: Int
+    var skillOnwerDetailsUid : String
     var price: Int
     var teacherUid: String
     var teacherDetail: TeacherDetails // New parameter
+    @ObservedObject var reviewViewModel = ReviewViewModel()
     
     @State private var isCopied = false
 
@@ -48,56 +49,49 @@ struct classPreviewCard: View {
                         .font(AppFont.mediumSemiBold)
                     Text("by \(teacherDetail.fullName)")
                         .font(AppFont.smallReg)
-                    HStack{
-                        Image("locationLight")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text("\(teacherDetail.city)")
-                            .font(AppFont.smallReg)
-                    }
                     
                     //reviews
                     HStack {
-                        Text("4.0 ⭐️")
-                            .padding([.top, .bottom], 2)
-                            .padding([.leading, .trailing], 8)
-                            .background(Color.accent)
-                            .foregroundColor(.black)
-                            .cornerRadius(50)
-                            .shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 12)
-                        Text("40 reviews")
-                            .foregroundColor(.white).opacity(0.6)
-                    }
-                    
-                    //fee
-                    Text("Rs. \(price) /month").font(.headline)
-                    
-                    //phone
-                    HStack {
-                        HStack {
-                            Image(systemName: "phone.fill")
-                                .font(.system(size: 20))
+                        let reviewsForSkillOwner = reviewViewModel.reviewDetails.filter { $0.teacherUid == teacherUid && $0.skillOwnerDetailsUid == skillOnwerDetailsUid }
+                                                              
+                        if !reviewsForSkillOwner.isEmpty {
+                            let averageRating = reviewsForSkillOwner.reduce(0.0) { $0 + Double($1.ratingStar) } / Double(reviewsForSkillOwner.count)
                             
-                            Text(String("\(teacherDetail.phoneNumber)"))
-                                .font(.headline)
-                        }
-                        .foregroundColor(.black)
-                        .padding([.top, .bottom], 4)
-                        .padding([.leading, .trailing], 12)
-                        .background(Color.phoneAccent)
-                        .cornerRadius(50)
-                        .onTapGesture {
-                            let phoneNumberString = "\(phoneNumber)"
-                            UIPasteboard.general.string = phoneNumberString
+                            Text("\(averageRating, specifier: "%.1f") ⭐️")
+                                .padding([.top, .bottom], 4)
+                                .padding([.leading, .trailing], 12)
+                                .background(Color.background)
+                                .cornerRadius(10)
                             
-                            isCopied = true
+                            Text("\(reviewsForSkillOwner.count) Review\(reviewsForSkillOwner.count == 1 ? "" : "s")")
+                                .font(AppFont.smallReg)
+                                .foregroundColor(.black)
+                        } else {
+                            Text("No Review")
+                                .font(AppFont.smallReg)
+                                .foregroundColor(.black)
                         }
-                        .alert(isPresented: $isCopied) {
-                            Alert(title: Text("Copied!"), message: Text("Phone number copied to clipboard."), dismissButton: .default(Text("OK")))
-                        }
-                        
-                        Spacer()
+                    
+
+
+                       
+
                     }
+                    .font(AppFont.smallReg)
+                    .onAppear() {
+                            ReviewDetails().fetchReviewDetails()
+                        }
+                    
+                 
+                    HStack{
+
+                        Text("\(teacherDetail.city)")
+                            .font(AppFont.smallReg)
+                    }
+                    .foregroundColor(.black).opacity(0.6)
+            
+                    Text("Rs. \(price) /month")
+                        .font(.headline)
                 }
                 
                 Spacer()
@@ -105,7 +99,7 @@ struct classPreviewCard: View {
         }
         .frame(maxWidth: .infinity, maxHeight: 300)
         .padding()
-        .foregroundColor(Color.white)
+        .foregroundColor(Color.black)
         .background(Color.elavated)
         .cornerRadius(20)
     }
@@ -114,6 +108,35 @@ struct classPreviewCard: View {
 struct classPreviewCard_Previews: PreviewProvider {
     static var previews: some View {
         let sampleTeacherDetail = TeacherDetails(id: "1", aboutParagraph: "Sample about paragraph", city: "Sample City", email: "sample@email.com", documentUid: "sampleDocUid", fullName: "John Doe", location: GeoPoint(latitude: 0, longitude: 0), occupation: "Sample Occupation", phoneNumber: 123456789, imageUrl: "https://example.com/image.jpg")
-        classPreviewCard(academy: "Viki's Academy", className: "Unknown", phoneNumber: 123456789, price: 2000, teacherUid: "1", teacherDetail: sampleTeacherDetail)
+        classPreviewCard(academy: "Viki's Academy", className: "Unknown", skillOnwerDetailsUid: "skillOwnerDetailsUid",  price: 2000, teacherUid: "1", teacherDetail: sampleTeacherDetail)
     }
 }
+
+
+
+//phone
+//                    HStack {
+//                        HStack {
+//                            Image(systemName: "phone.fill")
+//                                .font(.system(size: 20))
+//
+//                            Text(String("\(teacherDetail.phoneNumber)"))
+//                                .font(.headline)
+//                        }
+//                        .foregroundColor(.black)
+//                        .padding([.top, .bottom], 4)
+//                        .padding([.leading, .trailing], 12)
+//                        .background(Color.phoneAccent)
+//                        .cornerRadius(50)
+//                        .onTapGesture {
+//                            let phoneNumberString = "\(phoneNumber)"
+//                            UIPasteboard.general.string = phoneNumberString
+//
+//                            isCopied = true
+//                        }
+//                        .alert(isPresented: $isCopied) {
+//                            Alert(title: Text("Copied!"), message: Text("Phone number copied to clipboard."), dismissButton: .default(Text("OK")))
+//                        }
+//
+//                        Spacer()
+//                    }

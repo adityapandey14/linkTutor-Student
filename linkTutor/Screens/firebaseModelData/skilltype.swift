@@ -35,14 +35,15 @@ struct SkillOwnerDetail: Identifiable, Codable , Hashable {
     var skillUid: String
     var teacherUid: String
     var week: [String]
-    var startTime: Timestamp // Corrected type
-    var endTime: Timestamp // Corrected type
+    var startTime: Date // Corrected type
+    var endTime: Date // Corrected type
     var mode: String
 }
 
 // Create a view model to fetch the data
 class SkillViewModel: ObservableObject {
     @Published var skillTypes: [SkillType] = []
+    static let shared = SkillViewModel()
     private let db = Firestore.firestore()
     
     init() {
@@ -79,8 +80,8 @@ class SkillViewModel: ObservableObject {
                         skillUid: data["skillUid"] as? String ?? "",
                         teacherUid: data["teacherUid"] as? String ?? "",
                         week: data["week"] as? [String] ?? [],
-                        startTime: data["startTime"] as? Timestamp ?? Timestamp(), // Default value if conversion fails
-                        endTime: data["endTime"] as? Timestamp ?? Timestamp(), // Default value if conversion fails
+                        startTime: data["startTime"] as? Date ?? Date(), // Default value if conversion fails
+                        endTime: data["endTime"] as? Date ?? Date(), // Default value if conversion fails
                         mode: data["mode"] as? String ?? ""
                     )
                 }
@@ -117,6 +118,12 @@ struct SkillView: View {
     var body: some View {
         ScrollView {
             ForEach(viewModel.skillTypes) { skillType in
+                
+                if let skillType = viewModel.skillTypes.first(where: { $0.id == "dance" }) {
+                    if let detail = skillType.skillOwnerDetails.first(where: { $0.id == "1" }) {
+                        Text("Dance \(detail.teacherUid)")
+                    }}
+                
                 VStack(alignment: .leading) {
                     Text("Skill Type: \(skillType.id)")
                         .font(.headline)

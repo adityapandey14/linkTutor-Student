@@ -39,7 +39,7 @@ struct homepageComplete: View {
         .tint(Color.accent)
         .accentColor(Color.accent)
         //.navigationBarHidden(false)
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
     }
 }
 

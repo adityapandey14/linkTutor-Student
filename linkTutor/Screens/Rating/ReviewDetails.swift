@@ -90,7 +90,7 @@ struct ReviewDetails: View {
             if !isFetching {
                 fetchReviewDetails()
             }
-        }
+        } // end of on appear
     }
     
     func fetchReviewDetails() {
@@ -98,10 +98,7 @@ struct ReviewDetails: View {
             do {
                 // Mark fetching as in progress
                 isFetching = true
-                await reviewViewModel.initialize()
-            } catch {
-                print("Error fetching review details: \(error.localizedDescription)")
-                // Handle error here
+                 reviewViewModel.initialize()
             }
             // Mark fetching as completed
             isFetching = false

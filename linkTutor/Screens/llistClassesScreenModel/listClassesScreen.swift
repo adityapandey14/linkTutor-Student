@@ -23,10 +23,10 @@ struct listClassesScreen: View {
                                         .font(.system(size: 20))
                                 }
                             }
-                            .font(.headline)
+                            .font(AppFont.actionButton)
                             .frame(minWidth: 90, minHeight: 30)
-                            .foregroundColor(.accentColor)
-                            .background(Color.gray.opacity(0.2))
+                            .foregroundColor(.accent)
+                            .background(.ultraThinMaterial)
                             .cornerRadius(8)
                             .actionSheet(isPresented: $showActionSheet) {
                                 ActionSheet(
@@ -54,9 +54,9 @@ struct listClassesScreen: View {
                             ForEach(skillTypeDetails.skillOwnerDetails) { detail in
                                 if let teacherDetailIndex = teacherViewModel.teacherDetails.firstIndex(where: { $0.id == detail.teacherUid }) {
                                     let teacherDetail = teacherViewModel.teacherDetails[teacherDetailIndex]
-                                    NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid, academy: detail.academy , skillUid: detail.skillUid , skillOwnerUid: detail.id, className: detail.className, startTime: detail.startTime, endTime: detail.endTime, week: detail.week ,  mode : detail.mode , teacherDetail : teacherDetail , price : detail.price)) {
+                                    NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid, academy: detail.academy , skillUid: detail.skillUid , skillOwnerUid: detail.id, className: detail.className, startTime: detail.startTime, endTime: detail.endTime, week: detail.week ,  mode : detail.mode , teacherDetail : teacherDetail , price : detail.price , skillOnwerDetailsUid: detail.id)) {
                                         
-                                        classPreviewCard(academy: detail.academy, className: detail.className, phoneNumber: 123456789 ,  price: Int(detail.price), teacherUid: detail.teacherUid, teacherDetail: teacherDetail)
+                                        classPreviewCard(academy: detail.academy, className: detail.className, skillOnwerDetailsUid: detail.id ,  price: Int(detail.price), teacherUid: detail.teacherUid, teacherDetail: teacherDetail)
                                     }
                                     
                                 }
@@ -67,7 +67,7 @@ struct listClassesScreen: View {
                     }
                     .padding()
                 }
-                .navigationTitle("Details")
+                .navigationTitle("")
                 .onAppear {
                     viewModel.fetchSkillOwnerDetails(for: skillType)
                     Task {

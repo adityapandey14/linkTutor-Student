@@ -12,6 +12,11 @@ struct RequestSentCard: View {
     var phoneNumber : Int
     var id : String
     var className : String
+    var skillUid : String
+    var skillOwnerDetailsUid : String
+    var teacherUid: String
+
+    
     @State var showingUpdateCourse = false
 //    @EnvironmentObject var viewModel: AuthViewModel
     @ObservedObject var viewModel = RequestListViewModel()
@@ -19,56 +24,58 @@ struct RequestSentCard: View {
     
     var body: some View{
         NavigationStack{
-            VStack{
-                HStack{
-                    VStack(alignment: .leading){
-                        Text("\(className)")
-                            .font(AppFont.mediumSemiBold)
-                        
-                        Text("\(teacherName)")
-                            .font(AppFont.smallReg)
-                    }
+           
+                VStack{
                     
-                    Spacer()
-                    
-                    Button(action: {
-                        // Delete button action
-//                        Task {
-//                            await viewModel.deleteEnrolled(id: id)
-//                        }
-                        showDeleteAlert.toggle()
-                    }) {
-                        Text("Delete")
-                            .font(AppFont.actionButton)
-                            .frame(minWidth: 90, minHeight: 30)
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .alert(isPresented: $showDeleteAlert) {
+                    NavigationLink(destination : requestSentLandingPage(id: id, skillUid: skillUid, skillOwnerDetailsUid: skillOwnerDetailsUid, className: className, teacherUid: teacherUid)){
+                        HStack{
+                            VStack(alignment: .leading){
+                                Text("\(className)")
+                                    .font(AppFont.mediumSemiBold)
+                                
+                                Text("\(teacherName)")
+                                    .font(AppFont.smallReg)
+                            }
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                              
+                                showDeleteAlert.toggle()
+                            }) {
+                                Text("Delete")
+                                    .font(AppFont.actionButton)
+                                    .frame(minWidth: 90, minHeight: 30)
+                                    .background(Color.red)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
+                            .alert(isPresented: $showDeleteAlert) {
                                 Alert(
                                     title: Text("Delete request"),
                                     message: Text("Are you sure?"),
                                     primaryButton: .destructive(Text("Delete")) {
                                         Task {
-                                            await viewModel.deleteEnrolled(id: id)
+                                            viewModel.deleteEnrolled(id: id)
                                         }
                                     },
                                     secondaryButton: .cancel()
                                 )
                             }
+                        }
+                        Spacer()
+                    }
                 }
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: 70)
-            .padding()
-            .background(Color.accent)
-            .foregroundColor(.black)
-            .cornerRadius(10)
+                .frame(maxWidth: .infinity, maxHeight: 70)
+                .padding()
+                .background(Color.elavated)
+                .foregroundColor(.black)
+                .cornerRadius(10)
+            
         }
     }
 }
     
 #Preview {
-    RequestSentCard(teacherName: "Obama", phoneNumber: 1234567890 , id: "1", className: "Science")
+    RequestSentCard(teacherName: "Obama", phoneNumber: 1234567890 , id: "1", className: "Science", skillUid: "skillUid" , skillOwnerDetailsUid: "skillOwnerDetailsUid" , teacherUid: "teacherUid")
 }

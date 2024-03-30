@@ -24,22 +24,23 @@ struct enrolledSubjectCard: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(className)
-                            .font(AppFont.mediumSemiBold)
+                NavigationLink(destination : enrolledLandingPage(id : id , skillUid: skillUid, skillOwnerDetailsUid: skillOwnerDetailsUid , className: className , teacherUid: teacherUid)){
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(className)
+                                .font(AppFont.mediumSemiBold)
+                            
+                            Text(teacherName)
+                                .font(AppFont.smallReg)
+                            Spacer()
+                        }
                         
-                        Text(teacherName)
-                            .font(AppFont.smallReg)
                         Spacer()
-                    }
-                    
-                    Spacer()
-                    
-                    VStack {
-//                        NavigationLink(
-//                            isActive: $isButtonClicked
-//                        ) {
+                        
+                        VStack {
+                            //                        NavigationLink(
+                            //                            isActive: $isButtonClicked
+                            //                        ) {
                             Button(action:{
                                 isButtonClicked = true
                             }) {
@@ -49,49 +50,48 @@ struct enrolledSubjectCard: View {
                             }
                             .sheet(isPresented: $isButtonClicked) {
                                 RatingFormView(className: className,
-                                                            skillOwnerDetailsUId: skillOwnerDetailsUid,
-                                                           teacherUid: teacherUid,
-                                                           skillUid: skillUid)
+                                               skillOwnerDetailsUId: skillOwnerDetailsUid,
+                                               teacherUid: teacherUid,
+                                               skillUid: skillUid)
                             }
                             .frame(minWidth: 90, minHeight: 30)
-                            .background(Color.elavated.opacity(0.7))
+                            .background(Color.gray.opacity(0.7))
                             .cornerRadius(8)
-//                        }
+                            //                        }
+                            
+                            Button(action: {
+                                showDeleteAlert.toggle()
                         
-                        Button(action: {
-                            showDeleteAlert.toggle()
-//                            Task {
-//                                await viewModel.deleteEnrolled(id: id)
-//                            }
-                        }) {
-                            Text("Unenroll")
-                                .font(AppFont.actionButton)
-                                .foregroundColor(.white)
+                            }) {
+                                Text("Unenroll")
+                                    .font(AppFont.actionButton)
+                                    .foregroundColor(.white)
+                            }
+                            .frame(minWidth: 90, minHeight: 30)
+                            .background(Color.red)
+                            .cornerRadius(8)
+                            .alert(isPresented: $showDeleteAlert) {
+                                Alert(
+                                    title: Text("Unenroll from class"),
+                                    message: Text("Are you sure?"),
+                                    primaryButton: .destructive(Text("Delete")) {
+                                        Task {
+                                            viewModel.deleteEnrolled(id: id)
+                                        }
+                                    },
+                                    secondaryButton: .cancel()
+                                )
+                            }
                         }
-                        .frame(minWidth: 90, minHeight: 30)
-                        .background(Color.red)
-                        .cornerRadius(8)
-                        .alert(isPresented: $showDeleteAlert) {
-                                    Alert(
-                                        title: Text("Unenroll from class"),
-                                        message: Text("Are you sure?"),
-                                        primaryButton: .destructive(Text("Delete")) {
-                                            Task {
-                                                await viewModel.deleteEnrolled(id: id)
-                                            }
-                                        },
-                                        secondaryButton: .cancel()
-                                    )
-                                }
                     }
+                    Spacer()
                 }
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: 70)
+                .padding()
+                .background(Color.elavated)
+                .foregroundColor(.black)
+                .cornerRadius(10)
             }
-            .frame(maxWidth: .infinity, maxHeight: 70)
-            .padding()
-            .background(Color.accent)
-            .foregroundColor(.black)
-            .cornerRadius(10)
         }
     }
 }

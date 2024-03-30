@@ -39,7 +39,7 @@ struct enrolledSubjectList: View {
                 }
                 .onAppear {
                     Task {
-                        await viewModel.fetchEnrolledStudents()
+                         viewModel.fetchEnrolledStudents()
                     }
                 }
                 

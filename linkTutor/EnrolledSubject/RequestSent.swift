@@ -27,7 +27,7 @@ struct RequestSent: View {
                 
                 VStack(spacing: 10) {
                     ForEach(viewModel.enrolledStudents.filter { $0.studentUid == userId && $0.requestAccepted == 0 }, id: \.id) { student in
-                        RequestSentCard(teacherName: student.teacherName, phoneNumber: student.teacherNumber, id: student.id, className: student.className)
+                        RequestSentCard(teacherName: student.teacherName, phoneNumber: student.teacherNumber, id: student.id, className: student.className , skillUid: student.skillUid , skillOwnerDetailsUid: student.skillOwnerDetailsUid , teacherUid: student.teacherUid)
                     }
                     .onAppear() {
                         Task {

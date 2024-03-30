@@ -29,7 +29,7 @@ struct enrolledClassVList: View {
         .padding()
         .edgesIgnoringSafeArea(.bottom)
         .background(Color.background)
-        .environment(\.colorScheme, .dark)
+//        .environment(\.colorScheme, .dark)
     }
     
 }

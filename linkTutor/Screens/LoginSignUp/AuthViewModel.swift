@@ -241,7 +241,7 @@ class AuthViewModel: ObservableObject {
     
     //When Enroll Now button will be clicked this function will be called
     
-    func addEnrolledStudent(teacherName: String , skillOwnerDetailsUid: String, studentName: String, studentUid: String, studentNumber: Int, requestAccepted: Int, requestSent: Int, className: String, teacherNumber: Int , teacherUid : String , skillUid : String , startTime : Timestamp , week : [String]) async throws {
+    func addEnrolledStudent(teacherName: String , skillOwnerDetailsUid: String, studentName: String, studentUid: String, studentNumber: Int, requestAccepted: Int, requestSent: Int, className: String, teacherNumber: Int , teacherUid : String , skillUid : String , startTime : Date , week : [String]) async throws {
         let db = Firestore.firestore()
         
         let data: [String: Any] = [

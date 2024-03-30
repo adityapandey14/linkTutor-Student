@@ -9,13 +9,13 @@ struct classLandingPage: View {
     var skillUid: String
     var skillOwnerUid: String
     var className: String
-    var startTime : Timestamp
-    var endTime : Timestamp
+    var startTime : Date
+    var endTime : Date
     var week : [String]
     var mode : String
     var teacherDetail: TeacherDetails
     var price : Int
-    
+    var skillOnwerDetailsUid : String
 
   
 
@@ -23,8 +23,6 @@ struct classLandingPage: View {
     //This variable to automatically refresh page
 
     @State private var isCopied = false
-    @State private var startTimeString = ""
-    @State private var endTimeString = ""
     @State private var showAlert = false
     
     @ObservedObject var studentViewModel = StudentViewModel.shared
@@ -66,16 +64,25 @@ struct classLandingPage: View {
                             if let teacherDetails = teacherViewModel.teacherDetails.first {
                                 // Rating and Review
                                 HStack {
-                                    Text("4.0 ⭐️")
-                                        .font(AppFont.smallReg)
-                                        .padding([.top, .bottom], 4)
-                                        .padding([.leading, .trailing], 12)
-                                        .background(Color.elavated)
-                                        .cornerRadius(10)
-                                    Text("40 reviews")
-                                        .font(AppFont.smallReg)
-//                                        .padding(.leading)
-                                        .foregroundColor(.white).opacity(0.7)
+                                    let reviewsForSkillOwner = reviewViewModel.reviewDetails.filter { $0.teacherUid == teacherUid && $0.skillOwnerDetailsUid == skillOnwerDetailsUid }
+                                                                          
+                                    if !reviewsForSkillOwner.isEmpty {
+                                        let averageRating = reviewsForSkillOwner.reduce(0.0) { $0 + Double($1.ratingStar) } / Double(reviewsForSkillOwner.count)
+                                        
+                                        Text("\(averageRating, specifier: "%.1f") ⭐️")
+                                            .padding([.top, .bottom], 4)
+                                            .padding([.leading, .trailing], 12)
+                                            .background(Color.background)
+                                            .cornerRadius(10)
+                                        
+                                        Text("\(reviewsForSkillOwner.count) Review\(reviewsForSkillOwner.count == 1 ? "" : "s")")
+                                            .font(AppFont.smallReg)
+                                            .foregroundColor(.black)
+                                    } else {
+                                        Text("No Review")
+                                            .font(AppFont.smallReg)
+                                            .foregroundColor(.black)
+                                    }
                                     Spacer()
                                 }
 
@@ -89,7 +96,7 @@ struct classLandingPage: View {
                                             showAlert.toggle()
                                               print("Enrollment action")
 
-                                                var userId = Auth.auth().currentUser?.uid
+                                                let userId = Auth.auth().currentUser?.uid
                                                 Task {
                                                     await studentViewModel.fetchStudentDetailsByID(studentID: userId!)
                                              
@@ -129,7 +136,7 @@ struct classLandingPage: View {
                                         }) {
                                             Text("Enroll now")
                                                 .font(AppFont.mediumReg)
-                                                .foregroundColor(.black)
+                                                .foregroundColor(.white)
                                                 .padding(10)
                                                 .padding([.leading, .trailing], 20)
                                         }
@@ -147,8 +154,9 @@ struct classLandingPage: View {
                                     Spacer()
                                 }
                                 
-                             
-                                    quickInfoCard(tutorAddress: "\(teacherDetails.city)", startTime: startTimeString , endTime: endTimeString, tutionFee: price )
+                               
+                                
+                                    quickInfoCard(tutorAddress: "\(teacherDetails.city)", startTime: startTime, endTime: endTime , tutionFee: price )
                                                                        .padding([.top, .bottom], 10)
                               
                                 // QuickInfoBox
@@ -157,7 +165,7 @@ struct classLandingPage: View {
                                 HStack {
                                     HStack {
                                         Image(systemName: "phone.fill")
-                                            .font(.system(size: 17))
+                                            .font(.system(size: 15))
 
                                         Text(String("\(teacherDetails.phoneNumber)"))
                                             .font(AppFont.actionButton)
@@ -183,7 +191,7 @@ struct classLandingPage: View {
 
                                     HStack {
                                         Image(systemName: "message.fill")
-                                            .font(.system(size: 17))
+                                            .font(.system(size: 15))
                                         Text("iMessage")
                                             .font(AppFont.actionButton)
                                     }
@@ -270,7 +278,7 @@ struct classLandingPage: View {
                 }
                 .background(Color.background)
                 .onAppear {
-                    fetchTimes()
+              
                     DispatchQueue.main.async {
                         Task {
                             await teacherViewModel.fetchTeacherDetailsByID(teacherID: teacherUid)
@@ -280,9 +288,7 @@ struct classLandingPage: View {
             }
         }
         
-        .onReceive(teacherViewModel.$teacherDetails) { _ in
-            fetchTimes() // Call fetchTimes() when teacherDetails changes
-        }
+      
        
       
     }
@@ -296,16 +302,13 @@ struct classLandingPage: View {
         return dateFormatter.string(from: date)
     }
     
-    private func fetchTimes() {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "HH:mm"
+    func formatDateTime(_ date: Date) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a" // Date format: dayOfMonth month year hour:minute AM/PM
+        return dateFormatter.string(from: date)
+    }
 
-            let startDate = startTime.dateValue()
-            let endDate = endTime.dateValue()
 
-            startTimeString = dateFormatter.string(from: startDate)
-            endTimeString = dateFormatter.string(from: endDate)
-        }
     
     private func openMessagesApp(withPhoneNumber phoneNumber: String) {
             let smsUrlString = "sms:\(phoneNumber)"

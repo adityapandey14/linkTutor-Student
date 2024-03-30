@@ -9,7 +9,7 @@ struct CustomSectionHeader: View {
     var body: some View {
         HStack{
             Text(title)
-                .font(AppFont.mediumSemiBold)
+                .font(AppFont.smallSemiBold)
                 .textCase(.none)// Customize background color as needed
             Spacer()
         }
@@ -19,7 +19,8 @@ struct CustomSectionHeader: View {
 struct ProfileInputView: View {
     
     @EnvironmentObject var viewModel: AuthViewModel
-  
+    @Environment(\.presentationMode) var presentationMode
+    
     @State private var fullName: String = ""
     @State private var email: String = ""
     @State private var city: String = ""
@@ -73,7 +74,7 @@ struct ProfileInputView: View {
 //                .padding()
                 
                 List{
-                    Section(header: CustomSectionHeader(title: "About").foregroundColor(.white)){
+                    Section(header: CustomSectionHeader(title: "About").foregroundColor(.gray)){
                         
                         // Name TextField
                         TextField("Name", text: $fullName)
@@ -89,7 +90,7 @@ struct ProfileInputView: View {
                             .listRowBackground(Color.darkbg)
                     }
                     
-                    Section(header: CustomSectionHeader(title: "Personal").foregroundColor(.white)){
+                    Section(header: CustomSectionHeader(title: "Personal").foregroundColor(.gray)){
                         //age
                         TextField("Age", text: $age)
                             .listRowBackground(Color.darkbg)
@@ -100,7 +101,7 @@ struct ProfileInputView: View {
                             .autocapitalization(.none)
                     }
                     
-                    Section(header: CustomSectionHeader(title: "Phone Number").foregroundColor(.white)){
+                    Section(header: CustomSectionHeader(title: "Phone Number").foregroundColor(.gray)){
                         // Password SecureField
                         TextField("PhoneNumber", value: $phoneNumber, formatter: NumberFormatter())
                             .keyboardType(.numberPad)
@@ -111,7 +112,7 @@ struct ProfileInputView: View {
                 .background(Color.background)
                 .scrollContentBackground(.hidden)
                 
-                NavigationLink(destination: homepageComplete(), isActive: $isProfileIsSubmit) {
+//                NavigationLink(destination: homepageComplete(), isActive: $isProfileIsSubmit) {
                     Button(action: {
                         // Handle add class action
                         viewModel.updateStudentProfile(fullName: fullName,
@@ -123,20 +124,18 @@ struct ProfileInputView: View {
                                                        occupation: occupation,
                                                        phoneNumber: phoneNumber ,
                                                        selectedImage: selectedImage)
-                        // Activate the navigation to TeacherHomePage
-                        
-                        
-                        isProfileIsSubmit = true
+                        // Go back
+                        presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Submit Profile")
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .font(AppFont.mediumSemiBold)
                     }
                     .frame(width:250, height: 25)
                     .padding()
                     .background(Color.accent)
                     .cornerRadius(50)
-                }
+//                }
                 
             } //v end
             .background(Color.background)

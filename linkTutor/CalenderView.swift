@@ -25,7 +25,7 @@ struct CalendarView: View {
             
             //the timetables
             
-            ScrollView{
+            ScrollView(showsIndicators: false){
                 VStack(alignment: .leading){
                     Text(dateDescription(for: selectedDate))
                         .font(.headline)
@@ -71,7 +71,7 @@ struct CalendarView: View {
                         
                     }
                 }
-            }
+            } //scrollview end
             Spacer()
         }
         .padding()

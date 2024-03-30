@@ -10,9 +10,12 @@ struct SectionHeader<Destination: View>: View {
                 .font(AppFont.mediumSemiBold)
             Spacer()
             NavigationLink(destination: fileLocation) {
-                Image(systemName:"arrow.right")
-                    .font(.system(size: 20))
+                Text("See all")
+                    .font(AppFont.actionButton)
                     .foregroundColor(.accent)
+//                Image(systemName:"arrow.right")
+//                    .font(.system(size: 20))
+//                    .foregroundColor(.accent)
             }
         }
         .padding(.top, 30)

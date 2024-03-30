@@ -32,7 +32,7 @@ struct enrolledClassCard: View{
         .padding(.vertical, 20)
         .background(Color.elavated)
         .cornerRadius(10)
-        .environment(\.colorScheme, .dark) //DARK
+//        .environment(\.colorScheme, .dark) 
     }
 }
 

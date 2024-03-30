@@ -45,7 +45,7 @@ struct allPopularCard: View {
             .padding(.horizontal)
             .edgesIgnoringSafeArea(.bottom)
             .background(Color.background)
-            .environment(\.colorScheme, .dark)
+//            .environment(\.colorScheme, .dark)
         }
     }
 }
@@ -95,9 +95,9 @@ struct popularClassCardV: View{
             
         }
         .frame(maxWidth: .infinity, maxHeight: 90)
-        .padding()
-        .foregroundColor(.elavated)
-        .background(Color.accent)
+        .padding(10)
+        .foregroundColor(.black)
+        .background(Color.elavated)
         .cornerRadius(20)
     }
 }
@@ -106,6 +106,34 @@ struct popularClassCardV: View{
     popularClassCardV(skillId: "Dance", iconName: "art")
 }
 
+struct popularClassCardH: View{
+    @ObservedObject var viewModel = SkillViewModel()
+    @State private var selectedSkillType: SkillType?
+    var skillId : String
+    var iconName: String
+    var body: some View{
+        VStack{
+            Spacer()
+            Image("\(skillId)")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(height: 100)
+            Text("\(skillId)")
+                .font(.system(size: 27, weight: .semibold, design: .rounded))
+                .scaledToFit()
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(10)
+        .foregroundColor(.elavated)
+        .background(Color.accent)
+        .cornerRadius(20)
+    }
+}
+
+#Preview {
+    popularClassCardH(skillId: "Dance", iconName: "art")
+}
 
 struct allPopularCardHomePage: View {
     @ObservedObject var skillViewModel = SkillViewModel()
@@ -113,7 +141,7 @@ struct allPopularCardHomePage: View {
     
     
     let columns : [GridItem] = [GridItem(.flexible()) ,GridItem(.flexible())]
-    
+    let rows: [GridItem] = [GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         NavigationStack{
@@ -124,15 +152,27 @@ struct allPopularCardHomePage: View {
                             popularClassCardV(skillId: skillTypeName.prefix(1).capitalized + skillTypeName.dropFirst(), iconName: "art")
                                 
                             }
-                        
-                            
                         }
-            
                     }
+//            ScrollView(.horizontal) {
+//                LazyHGrid(rows: rows, spacing: 10) {
+//                    ForEach(skillViewModel.skillTypes.prefix(5), id: \.id) { skillType in
+//                        NavigationLink(destination: listClassesScreen(skillType: skillType)) {
+//                            popularClassCardH(skillId: skillType.id.prefix(1).capitalized + skillType.id.dropFirst(), iconName: "art")
+//                        }
+//                    }
+//                    
+//                    ForEach(skillViewModel.skillTypes.suffix(5), id: \.id) { skillType in
+//                        NavigationLink(destination: listClassesScreen(skillType: skillType)) {
+//                            popularClassCardH(skillId: skillType.id.prefix(1).capitalized + skillType.id.dropFirst(), iconName: "art")
+//                        }
+//                    }
+//                }
+//            }
             .padding(.horizontal)
             .edgesIgnoringSafeArea(.bottom)
             .background(Color.background)
-            .environment(\.colorScheme, .dark)
+//            .environment(\.colorScheme, .dark)
      
             }
         }
