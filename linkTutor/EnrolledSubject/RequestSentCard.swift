@@ -65,6 +65,7 @@ struct RequestSentCard: View {
                         }
                         Spacer()
                     }
+                    Spacer()
                 }
                 .frame(maxWidth: .infinity, maxHeight: 70)
                 .padding()

@@ -11,12 +11,10 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
-
-
-
+import CoreLocation
 
 // Define your data models
-struct SkillType: Identifiable, Equatable , Hashable {
+struct SkillType: Identifiable, Equatable, Hashable {
     var id: String
     var skillOwnerDetails: [SkillOwnerDetail] = []
     var isAscendingOrder: Bool = true
@@ -26,7 +24,7 @@ struct SkillType: Identifiable, Equatable , Hashable {
     }
 }
 
-struct SkillOwnerDetail: Identifiable, Codable , Hashable {
+struct SkillOwnerDetail: Identifiable, Codable, Hashable {
     var id: String
     var academy: String
     var className: String
@@ -38,18 +36,30 @@ struct SkillOwnerDetail: Identifiable, Codable , Hashable {
     var startTime: Date // Corrected type
     var endTime: Date // Corrected type
     var mode: String
+    var location: GeoPoint // assuming GeoPoint is a valid type
+
+    // Include Hashable conformance
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 // Create a view model to fetch the data
-class SkillViewModel: ObservableObject {
+class SkillViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var skillTypes: [SkillType] = []
     static let shared = SkillViewModel()
     private let db = Firestore.firestore()
-    
-    init() {
+    private let locationManager = CLLocationManager()
+    private var userLocation: CLLocation?
+
+    override init() {
+        super.init()
         fetchSkillTypes()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
-    
+
     func fetchSkillTypes() {
         Task {
             do {
@@ -64,7 +74,7 @@ class SkillViewModel: ObservableObject {
             }
         }
     }
-    
+
     func fetchSkillOwnerDetails(for skillType: SkillType) {
         Task {
             do {
@@ -80,9 +90,10 @@ class SkillViewModel: ObservableObject {
                         skillUid: data["skillUid"] as? String ?? "",
                         teacherUid: data["teacherUid"] as? String ?? "",
                         week: data["week"] as? [String] ?? [],
-                        startTime: data["startTime"] as? Date ?? Date(), // Default value if conversion fails
-                        endTime: data["endTime"] as? Date ?? Date(), // Default value if conversion fails
-                        mode: data["mode"] as? String ?? ""
+                        startTime: data["startTime"] as? Date ?? Date(),
+                        endTime: data["endTime"] as? Date ?? Date(),
+                        mode: data["mode"] as? String ?? "",
+                        location: data["location"] as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0) // Adjust this according to your GeoPoint structure
                     )
                 }
                 DispatchQueue.main.async {
@@ -95,7 +106,53 @@ class SkillViewModel: ObservableObject {
             }
         }
     }
+
+    func sortDetailsByDistance() {
+        guard let userLocation = self.userLocation else {
+            print("User location is not available.")
+            return
+        }
+
+        for index in 0..<skillTypes.count {
+            skillTypes[index].skillOwnerDetails = skillTypes[index].skillOwnerDetails.filter { detail in
+                let location = CLLocation(latitude: detail.location.latitude, longitude: detail.location.longitude)
+                let distance = userLocation.distance(from: location) / 1000 // Convert to kilometers
+
+                return distance <= 100
+            }
+
+            skillTypes[index].skillOwnerDetails.sort { (detail1, detail2) -> Bool in
+                let location1 = CLLocation(latitude: detail1.location.latitude, longitude: detail1.location.longitude)
+                let location2 = CLLocation(latitude: detail2.location.latitude, longitude: detail2.location.longitude)
+
+                let distance1 = userLocation.distance(from: location1)
+                let distance2 = userLocation.distance(from: location2)
+
+                return distance1 < distance2
+            }
+        }
+    }
     
+    func sortDetailsByLocation(for skillType: SkillType) {
+        guard let userLocation = self.userLocation else {
+            print("User location is not available.")
+            return
+        }
+        
+        for index in 0..<skillTypes.count {
+            skillTypes[index].skillOwnerDetails.sort { (detail1, detail2) -> Bool in
+                let location1 = CLLocation(latitude: detail1.location.latitude, longitude: detail1.location.longitude)
+                let location2 = CLLocation(latitude: detail2.location.latitude, longitude: detail2.location.longitude)
+                
+                let distance1 = userLocation.distance(from: location1)
+                let distance2 = userLocation.distance(from: location2)
+                
+                return distance1 < distance2
+            }
+        }
+    }
+
+
     func sortDetailsAscending(for skillType: SkillType) {
         if let index = skillTypes.firstIndex(where: { $0.id == skillType.id }) {
             skillTypes[index].skillOwnerDetails.sort { $0.price < $1.price }
@@ -109,38 +166,56 @@ class SkillViewModel: ObservableObject {
             skillTypes[index].isAscendingOrder = false
         }
     }
+
+    // CLLocationManagerDelegate methods
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            self.userLocation = location
+            sortDetailsByDistance() // Sort based on user's current location
+            manager.stopUpdatingLocation() // Stop updating location to save battery
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
+    }
 }
 
 struct SkillView: View {
     @ObservedObject var viewModel = SkillViewModel()
     @State private var selectedSkillType: SkillType?
+    @State private var radius: Double = 100 // Default radius of 100 km
     
     var body: some View {
-        ScrollView {
-            ForEach(viewModel.skillTypes) { skillType in
-                
-                if let skillType = viewModel.skillTypes.first(where: { $0.id == "dance" }) {
-                    if let detail = skillType.skillOwnerDetails.first(where: { $0.id == "1" }) {
-                        Text("Dance \(detail.teacherUid)")
-                    }}
-                
-                VStack(alignment: .leading) {
-                    Text("Skill Type: \(skillType.id)")
-                        .font(.headline)
-                        .onTapGesture {
-                            selectedSkillType = skillType
-                            viewModel.fetchSkillOwnerDetails(for: skillType)
-                        }
-                        .padding()
-                    
-                    if selectedSkillType == skillType {
+        VStack {
+            Slider(value: $radius, in: 0...200, step: 1) {
+                Text("Search Radius: \(Int(radius)) km")
+            }
+            .padding(.horizontal)
+            
+            ScrollView {
+                ForEach(viewModel.skillTypes) { skillType in
+                    VStack(alignment: .leading) {
+                        Text("Skill Type: \(skillType.id)")
+                            .font(.headline)
+                            .onTapGesture {
+                                selectedSkillType = skillType
+                                viewModel.fetchSkillOwnerDetails(for: skillType)
+                            }
+                            .padding()
+                        
                         HStack {
-                            Button("Sort \(skillType.isAscendingOrder ? "Descending" : "Ascending")") {
-                                if skillType.isAscendingOrder {
-                                    viewModel.sortDetailsDescending(for: skillType)
-                                } else {
-                                    viewModel.sortDetailsAscending(for: skillType)
-                                }
+                            Button("Sort Ascending") {
+                                viewModel.sortDetailsAscending(for: skillType)
+                            }
+                            .frame(width: 150, height: 30)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(8)
+
+                            Button("Sort Descending") {
+                                viewModel.sortDetailsDescending(for: skillType)
                             }
                             .frame(width: 150, height: 30)
                             .foregroundColor(.white)
@@ -148,34 +223,76 @@ struct SkillView: View {
                             .background(Color.blue)
                             .cornerRadius(8)
                         }
-                    }
-                    
-                    ForEach(skillType.skillOwnerDetails) { detail in
-                        VStack(alignment: .leading) {
-                            Text("Class Name: \(detail.className)")
-                                .padding()
-                            Text("Academy: \(detail.academy)")
-                                .padding()
-                            Text("Price: \(detail.price)")
-                                .padding()
-                            Text("Week: \(detail.week.joined(separator: ", "))")
-                                .padding()
-                                .foregroundColor(.red)
-                            // Add other fields as needed
+
+                        ForEach(skillType.skillOwnerDetails.filter { detail in
+                            // Safely unwrap optional values
+                            if let userId = Auth.auth().currentUser?.uid,
+                               let userLocation = StudentViewModel.shared.userDetails.first(where: { $0.id == userId })?.location {
+                                let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
+                                let classLocation = CLLocation(latitude: detail.location.latitude, longitude: detail.location.longitude)
+                                let distance = calculateDistance(userLocation: location, classLocation: classLocation)
+                                return distance <= radius
+                            }
+                            return false
+                        }) { detail in
+                            VStack(alignment: .leading) {
+                                Text("Class Name: \(detail.className)")
+                                    .padding()
+                                Text("Academy: \(detail.academy)")
+                                    .padding()
+                                Text("Price: \(detail.price)")
+                                    .padding()
+                                Text("Week: \(detail.week.joined(separator: ", "))")
+                                    .padding()
+                                    .foregroundColor(.red)
+                                // Add other fields as needed
+                            }
                         }
                     }
+                    .padding()
                 }
-                .padding()
+            }
+            .onAppear {
+                viewModel.sortDetailsByDistance()
             }
         }
+    }
+    
+    // Function to calculate distance between two locations using Haversine formula
+     func calculateDistance(userLocation: CLLocation, classLocation: CLLocation) -> Double {
+        let earthRadius = 6371.0 // Earth's radius in kilometers
+        
+        let lat1 = userLocation.coordinate.latitude
+        let lon1 = userLocation.coordinate.longitude
+        let lat2 = classLocation.coordinate.latitude
+        let lon2 = classLocation.coordinate.longitude
+        
+        let dLat = (lat2 - lat1).degreesToRadians
+        let dLon = (lon2 - lon1).degreesToRadians
+        
+        let a = sin(dLat / 2) * sin(dLat / 2) +
+            cos(lat1.degreesToRadians) * cos(lat2.degreesToRadians) *
+            sin(dLon / 2) * sin(dLon / 2)
+        let c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        let distance = earthRadius * c // Distance in kilometers
+        
+        return distance
+    }
+}
+
+extension Double {
+    var degreesToRadians: Double { return self * .pi / 180 }
+    var radiansToDegrees: Double { return self * 180 / .pi }
+}
+
+// Preview
+struct SkillView_Previews: PreviewProvider {
+    static var previews: some View {
+        SkillView()
     }
 }
 
 
-
-#Preview {
-    SkillView()
-}
 
 
 

@@ -58,7 +58,7 @@ struct classLandingPage: View {
                         Spacer()
                     }
 
-                    ScrollView(.vertical) {
+                    ScrollView(.vertical, showsIndicators: false) {
                         if !teacherViewModel.teacherDetails.isEmpty {
                             // View content using teacherViewModel.teacherDetails
                             if let teacherDetails = teacherViewModel.teacherDetails.first {
@@ -72,12 +72,12 @@ struct classLandingPage: View {
                                         Text("\(averageRating, specifier: "%.1f") ⭐️")
                                             .padding([.top, .bottom], 4)
                                             .padding([.leading, .trailing], 12)
-                                            .background(Color.background)
-                                            .cornerRadius(10)
+                                            .background(Color.elavated)
+                                            .cornerRadius(50)
                                         
                                         Text("\(reviewsForSkillOwner.count) Review\(reviewsForSkillOwner.count == 1 ? "" : "s")")
                                             .font(AppFont.smallReg)
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.black).opacity(0.6)
                                     } else {
                                         Text("No Review")
                                             .font(AppFont.smallReg)
@@ -85,6 +85,7 @@ struct classLandingPage: View {
                                     }
                                     Spacer()
                                 }
+                                .padding(.leading, 5)
 
                                 // Enroll button
                               
@@ -143,6 +144,7 @@ struct classLandingPage: View {
                                         .background(Color.accent)
                                         .cornerRadius(20)
                                         .padding([.top, .bottom], 10)
+                                        .padding(.leading, 5)
                                         .alert(isPresented: $showAlert) {
                                                     Alert(
                                                         title: Text("Request Sent"),
@@ -155,11 +157,10 @@ struct classLandingPage: View {
                                 }
                                 
                                
-                                
-                                    quickInfoCard(tutorAddress: "\(teacherDetails.city)", startTime: startTime, endTime: endTime , tutionFee: price )
-                                                                       .padding([.top, .bottom], 10)
-                              
                                 // QuickInfoBox
+                                quickInfoCard(tutorAddress: "\(teacherDetails.city)".capitalized, startTime: startTime, endTime: endTime , tutionFee: price )
+                                    .padding([.top, .bottom], 10)
+                              
                               
                                //Phone fill , message fill code
                                 HStack {
@@ -195,7 +196,7 @@ struct classLandingPage: View {
                                         Text("iMessage")
                                             .font(AppFont.actionButton)
                                     }
-                                    .padding([.top, .bottom], 4)
+                                    .padding([.top, .bottom], 6)
                                     .padding([.leading, .trailing], 12)
                                     .background(Color.messageAccent)
                                     .foregroundStyle(Color.black)
@@ -206,6 +207,7 @@ struct classLandingPage: View {
                                     Spacer()
                                 }
                                 .padding([.top, .bottom], 10)
+                                .padding(.leading, 5)
 
                                 HStack {
                                     VStack(alignment: .leading) {
@@ -218,6 +220,7 @@ struct classLandingPage: View {
                                                 HStack {
                                                     Image(systemName: "checkmark")
                                                         .font(.system(size: 20))
+                                                        .foregroundStyle(Color.black).opacity(0.6)
                                                     Text("Online")
                                                         .font(AppFont.smallReg)
                                                         .foregroundColor(.gray)
@@ -226,6 +229,7 @@ struct classLandingPage: View {
                                                 HStack {
                                                     Image(systemName: "checkmark")
                                                         .font(.system(size: 20))
+                                                        .foregroundStyle(Color.black).opacity(0.6)
                                                     Text("Offline")
                                                         .font(AppFont.smallReg)
                                                         .foregroundColor(.gray)
@@ -236,9 +240,10 @@ struct classLandingPage: View {
                                                 HStack {
                                                     Image(systemName: "checkmark")
                                                         .font(.system(size: 20))
-                                                    Text("\(mode)")
+                                                        .foregroundStyle(Color.black).opacity(0.6)
+                                                    Text("\(mode)".capitalized)
                                                         .font(AppFont.smallReg)
-                                                        .foregroundColor(.gray)
+                                                        .foregroundColor(.black)
                                                     Spacer()
                                                 }.padding(5)
                                             }
@@ -273,8 +278,8 @@ struct classLandingPage: View {
                             Text("Loading...")
                                 .padding()
                         }
-                    }
-                    .padding()
+                    } //scroll end
+                    .padding([.horizontal, .bottom])
                 }
                 .background(Color.background)
                 .onAppear {
@@ -285,7 +290,8 @@ struct classLandingPage: View {
                         }
                     }
                 }
-            }
+            }//vstack end
+            .edgesIgnoringSafeArea(.bottom)
         }
         
       

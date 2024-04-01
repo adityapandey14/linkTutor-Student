@@ -24,12 +24,12 @@ struct homeScreen: View{
                         let nameComponents = fullName.components(separatedBy: " ")
                         let firstName = nameComponents.first ?? ""
                         header(yourName: firstName)
-                            .padding(.bottom)
+//                            .padding(.bottom)
                     
                     }
                     else {
                         header(yourName: "there")
-                            .padding(.bottom)
+//                            .padding(.bottom)
                     }
                        
                     NavigationLink(destination: SearchView()){
@@ -50,7 +50,6 @@ struct homeScreen: View{
                     }
                 }
                 .padding(.horizontal)
-                .padding(.bottom, 15)
                 .onAppear {
                   
                     Task {
@@ -72,6 +71,7 @@ struct homeScreen: View{
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack{
                                 if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
+                                   
                                     ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
                                         calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
                                     }
