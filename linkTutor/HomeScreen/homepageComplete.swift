@@ -33,13 +33,11 @@ struct homepageComplete: View {
                         Label("Enrolled" , systemImage: "person.3.sequence")
                     }
                 
-                SkillView()
-                    .tabItem {
-                        Label("skillView" , systemImage: "person.3.sequence")
-                    }
+               
+                
                 
             }
-            .accentColor(Color.accent)
+//            .accentColor(Color.accent)
         }
         .tint(Color.accent)
         .accentColor(Color.accent)

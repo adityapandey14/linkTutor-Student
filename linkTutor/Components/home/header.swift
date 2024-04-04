@@ -5,41 +5,32 @@ struct header: View{
     
     var yourName: String
     var body: some View{
-        HStack{
+        HStack(alignment: .top){
             VStack(alignment: .leading){
                 HStack{
                     Text("Hi")
                         .font(AppFont.largeBold)
                     Text(yourName)
                         .font(AppFont.largeBold)
-                        .padding(.bottom, 1)
                     Spacer()
-                    //myProfileView
-                    NavigationLink(destination: myProfileView()){
-//                        Image(systemName: "person.circle.fill")
-//                            .resizable()
-//                            .clipped()
-//                            .frame(width: 50, height: 50)
-//                            .foregroundColor(.gray)
-                        if let imageUrl = studentViewModel.userDetails.first?.imageUrl {
-                            AsyncImage(url: URL(string: imageUrl)) { image in
-                                image
-                                    .resizable()
-                                    .clipped()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(50)
-                                    .padding(.trailing, 5)
-                            } placeholder: {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .clipped()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(50)
-                                    .padding(.trailing, 5)
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(width: 90, height: 90)
-                        } else {
+                }
+//                Text("what are you looking for today?")
+                Text("Explore new skills!")
+                    .font(AppFont.mediumReg)
+            }
+            Spacer()
+            VStack{
+                //myProfileView
+                NavigationLink(destination: myProfileView()){
+                    if let imageUrl = studentViewModel.userDetails.first?.imageUrl {
+                        AsyncImage(url: URL(string: imageUrl)) { image in
+                            image
+                                .resizable()
+                                .clipped()
+                                .frame(width: 50, height: 50)
+                                .cornerRadius(50)
+                                .padding(.trailing, 5)
+                        } placeholder: {
                             Image(systemName: "person.circle.fill")
                                 .resizable()
                                 .clipped()
@@ -48,16 +39,19 @@ struct header: View{
                                 .padding(.trailing, 5)
                                 .foregroundColor(.gray)
                         }
+                    } else {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .clipped()
+                            .frame(width: 50, height: 50)
+                            .cornerRadius(50)
+                            .padding(.trailing, 5)
+                            .foregroundColor(.gray)
                     }
-                    .offset(x:30)
                 }
-                Text("what are you looking for today?")
-                    .font(AppFont.mediumReg)
-                    .offset(y:-20)
+//                Spacer()
             }
-            Spacer()
         }
-        
     }
 }
 #Preview {

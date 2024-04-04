@@ -2,8 +2,8 @@ import SwiftUI
 
 struct quickInfoCard: View{
     var tutorAddress: String
-    var startTime: Date
-    var endTime: Date
+    var startTime: String
+    var endTime: String
     var tutionFee: Int
     var body: some View{
         VStack{
@@ -30,7 +30,7 @@ struct quickInfoCard: View{
                     .font(AppFont.smallSemiBold)
 //                    .foregroundColor(.gray)
                 HStack{
-                    Text(formattedTime(startTime)!)
+                    Text("\(startTime) - \(endTime)" )
                         .padding(.trailing, 10)
                         .font(AppFont.smallReg)
                     Spacer()
@@ -56,14 +56,9 @@ struct quickInfoCard: View{
         .cornerRadius(10)
         //.shadow(color: .black.opacity(0.05), radius: 10, x: 0, y: 12)
     }
-    
-     func formattedTime(_ date: Date) -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm a" // Date format: dayOfMonth month year hour:minute AM/PM
-        return dateFormatter.string(from: date)
-    }
+   
 }
 
 #Preview {
-    quickInfoCard(tutorAddress: "Fake street name, New York", startTime: Date(), endTime: Date(), tutionFee: 2000)
+    quickInfoCard(tutorAddress: "Fake street name, New York", startTime: "12:00", endTime: "1:00", tutionFee: 2000)
 }

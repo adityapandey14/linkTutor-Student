@@ -270,15 +270,21 @@ struct enrolledLandingPage: View {
 
 
 
-
 import SwiftUI
 import Firebase
 
 struct QuickInfoCard: View {
     var tutorAddress: String
-    var startTime: Date
-    var endTime: Date
+    var startTime: Timestamp
+    var endTime: Timestamp
     var tutionFee: Int
+    
+    // DateFormatter to format Timestamp to Time
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMMM yyyy" // Format: "25 January 2024"
+        return formatter
+    }()
     
     // DateFormatter to format Timestamp to Time
     private let timeFormatter: DateFormatter = {
@@ -292,28 +298,29 @@ struct QuickInfoCard: View {
             // Address
             VStack(alignment: .leading) {
                 Text("Address")
-                    .font(AppFont.smallSemiBold)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
                 HStack {
-                    Image("location")
+                    Image(systemName: "location.fill")
                         .resizable()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(.white)
+                        .foregroundColor(.blue)
                     Text("\(tutorAddress)")
-                        .font(AppFont.smallReg)
+                        .font(.subheadline)
                     Spacer()
                 }
-                .offset(y: -5)
             }
             .padding(.bottom, 5)
             
             // Timing
             VStack(alignment: .leading) {
-                Text("Timing")
-                    .font(AppFont.smallSemiBold)
+                Text("Enrolled Date")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
                 HStack {
-                    Text(formattedTime(startTime))
-                        .padding(.trailing, 10)
-                        .font(AppFont.smallReg)
+                    Text(formatDate(startTime)!)
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
                     Spacer()
                 }
             }
@@ -322,25 +329,25 @@ struct QuickInfoCard: View {
             // Fee
             VStack(alignment: .leading) {
                 Text("Fee")
-                    .font(AppFont.smallSemiBold)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
                 HStack {
                     Text("₹\(tutionFee) /month")
-                        .font(AppFont.smallReg)
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
                     Spacer()
                 }
             }
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: 180)
-        .background(Color.elavated)
+        .background(Color.gray.opacity(0.1))
         .cornerRadius(10)
     }
     
-    // Function to format Timestamp to Time
-    private func formattedTime(_ date: Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm" // Date format: hour:minute (24-hour format)
+    // Function to format Timestamp to Date
+    func formatDate(_ timestamp: Timestamp) -> String? {
+        let date = timestamp.dateValue()
         return dateFormatter.string(from: date)
     }
-
 }

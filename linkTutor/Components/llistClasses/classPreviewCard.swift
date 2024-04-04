@@ -63,9 +63,11 @@ struct classPreviewCard: View {
 //                                .padding([.top, .bottom], 3)
 //                                .padding([.leading, .trailing], 9)
 //                                .background(Color.background)
-                                .cornerRadius(50)
+//                                .cornerRadius(50)
+                                .font(AppFont.smallReg)
                             
                             Text("\(reviewsForSkillOwner.count) Review\(reviewsForSkillOwner.count == 1 ? "" : "s")")
+                                .font(AppFont.smallReg)
                         } else {
                             Text("no reviews")
                                 .font(AppFont.smallReg)

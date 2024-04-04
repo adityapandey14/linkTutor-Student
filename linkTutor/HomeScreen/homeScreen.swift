@@ -19,17 +19,17 @@ struct homeScreen: View{
        
         NavigationStack{
             VStack{
-                VStack{
+                VStack(spacing: 10){
                     if let fullName = studentViewModel.userDetails.first?.fullName {
                         let nameComponents = fullName.components(separatedBy: " ")
                         let firstName = nameComponents.first ?? ""
                         header(yourName: firstName)
-//                            .padding(.bottom)
+                            .padding(.bottom)
                     
                     }
                     else {
                         header(yourName: "there")
-//                            .padding(.bottom)
+                            .padding(.bottom)
                     }
                        
                     NavigationLink(destination: SearchView()){
@@ -40,11 +40,11 @@ struct homeScreen: View{
                             
                             Spacer()
                         }
-                        .foregroundStyle(Color.gray).opacity(0.7)
+                        .foregroundStyle(Color.gray)
                         .padding(3)
                         .padding(.leading, 10)
                         .frame(width: 370, height: 35)
-                        .background(.ultraThinMaterial)
+                        .background(Color.gray.opacity(0.1))
                         .cornerRadius(8)
                        
                     }
@@ -77,9 +77,13 @@ struct homeScreen: View{
                                     }
                                     
                                 } else {
-                                    Text("No classes found")
-                                        .foregroundColor(.gray)
-                                        .padding()
+                                    HStack{
+                                        Spacer()
+                                        Text("No classes found")
+                                            .foregroundColor(.gray)
+                                        Spacer()
+                                    }
+                                    .padding()
                                 }
                             }
                         }
@@ -87,7 +91,7 @@ struct homeScreen: View{
                         
                         
                         //Explore skills section
-                        SectionHeader(sectionName: "Explore Skills!", fileLocation: allPopularCard())
+                        SectionHeader(sectionName: "Categories", fileLocation: allPopularCard())
                             .padding(.horizontal)
                         
                         //explore classes cards
@@ -125,7 +129,7 @@ struct homeScreen: View{
     
     func classesForSelectedDate() -> [EnrolledStudent]? {
          return viewModel1.enrolledStudents.filter { enrolledClass in
-             enrolledClass.week.contains(formattedWeekday(for: Date()))
+             enrolledClass.week.contains(formattedWeekday(for: Date().addingTimeInterval(24 * 60 * 60)))
          }
      }
     

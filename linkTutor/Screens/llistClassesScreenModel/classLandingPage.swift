@@ -9,8 +9,8 @@ struct classLandingPage: View {
     var skillUid: String
     var skillOwnerUid: String
     var className: String
-    var startTime : Date
-    var endTime : Date
+    var startTime : Timestamp
+    var endTime : Timestamp
     var week : [String]
     var mode : String
     var teacherDetail: TeacherDetails
@@ -121,7 +121,7 @@ struct classLandingPage: View {
                                                                                                 teacherNumber: teacherDetails.phoneNumber,
                                                                                                 teacherUid: teacherUid ,
                                                                                                skillUid:  skillUid,
-                                                                                               startTime: startTime,
+                                                                                               startTime: Date(),
                                                                                                week: week
                                                                                                
                                                                                               
@@ -158,7 +158,7 @@ struct classLandingPage: View {
                                 
                                
                                 // QuickInfoBox
-                                quickInfoCard(tutorAddress: "\(teacherDetails.city)".capitalized, startTime: startTime, endTime: endTime , tutionFee: price )
+                                quickInfoCard(tutorAddress: "\(teacherDetails.city)".capitalized, startTime: "\(formatTimestamp(startTime))", endTime: "\(formatTimestamp(endTime))" , tutionFee: price )
                                     .padding([.top, .bottom], 10)
                               
                               
@@ -209,6 +209,7 @@ struct classLandingPage: View {
                                 .padding([.top, .bottom], 10)
                                 .padding(.leading, 5)
 
+                                //modes
                                 HStack {
                                     VStack(alignment: .leading) {
                                         Text("Mode")
@@ -251,7 +252,8 @@ struct classLandingPage: View {
                                     }
                                     Spacer()
                                 }
-
+                                
+                                //reviews
                                 HStack {
                                     VStack(alignment: .leading) {
                                         Text("Reviews")
@@ -308,11 +310,11 @@ struct classLandingPage: View {
         return dateFormatter.string(from: date)
     }
     
-    func formatDateTime(_ date: Date) -> String? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "hh:mm a" // Date format: dayOfMonth month year hour:minute AM/PM
-        return dateFormatter.string(from: date)
-    }
+    func formatTimestamp(_ timestamp: Timestamp) -> String {
+           let dateFormatter = DateFormatter()
+           dateFormatter.dateFormat = "h:mm a"
+           return dateFormatter.string(from: timestamp.dateValue())
+       }
 
 
     

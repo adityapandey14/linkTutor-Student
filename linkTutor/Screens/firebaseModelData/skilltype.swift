@@ -7,7 +7,6 @@
 
 
 
-
 import SwiftUI
 import Firebase
 import FirebaseFirestore
@@ -33,8 +32,8 @@ struct SkillOwnerDetail: Identifiable, Codable, Hashable {
     var skillUid: String
     var teacherUid: String
     var week: [String]
-    var startTime: Date // Corrected type
-    var endTime: Date // Corrected type
+    var startTime: Timestamp // Changed to Timestamp
+    var endTime: Timestamp // Changed to Timestamp
     var mode: String
     var location: GeoPoint // assuming GeoPoint is a valid type
 
@@ -90,8 +89,8 @@ class SkillViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                         skillUid: data["skillUid"] as? String ?? "",
                         teacherUid: data["teacherUid"] as? String ?? "",
                         week: data["week"] as? [String] ?? [],
-                        startTime: data["startTime"] as? Date ?? Date(),
-                        endTime: data["endTime"] as? Date ?? Date(),
+                        startTime: data["startTime"] as? Timestamp ?? Timestamp(date: Date()), // Default to current time
+                        endTime: data["endTime"] as? Timestamp ?? Timestamp(date: Date()), // Default to current time
                         mode: data["mode"] as? String ?? "",
                         location: data["location"] as? GeoPoint ?? GeoPoint(latitude: 0, longitude: 0) // Adjust this according to your GeoPoint structure
                     )
@@ -224,17 +223,10 @@ struct SkillView: View {
                             .cornerRadius(8)
                         }
 
-                        ForEach(skillType.skillOwnerDetails.filter { detail in
+                        ForEach(skillType.skillOwnerDetails) { detail in
                             // Safely unwrap optional values
-                            if let userId = Auth.auth().currentUser?.uid,
-                               let userLocation = StudentViewModel.shared.userDetails.first(where: { $0.id == userId })?.location {
-                                let location = CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude)
-                                let classLocation = CLLocation(latitude: detail.location.latitude, longitude: detail.location.longitude)
-                                let distance = calculateDistance(userLocation: location, classLocation: classLocation)
-                                return distance <= radius
-                            }
-                            return false
-                        }) { detail in
+                           
+                       
                             VStack(alignment: .leading) {
                                 Text("Class Name: \(detail.className)")
                                     .padding()
@@ -242,6 +234,10 @@ struct SkillView: View {
                                     .padding()
                                 Text("Price: \(detail.price)")
                                     .padding()
+                                
+                                Text("Start Time: \(formatTimestamp(detail.startTime))")
+                                                          Text("End Time: \(formatTimestamp(detail.endTime))")
+                                
                                 Text("Week: \(detail.week.joined(separator: ", "))")
                                     .padding()
                                     .foregroundColor(.red)
@@ -257,6 +253,13 @@ struct SkillView: View {
             }
         }
     }
+    
+    func formatTimestamp(_ timestamp: Timestamp) -> String {
+           let dateFormatter = DateFormatter()
+           dateFormatter.dateFormat = "MMM d, yyyy h:mm a"
+           return dateFormatter.string(from: timestamp.dateValue())
+       }
+
     
     // Function to calculate distance between two locations using Haversine formula
      func calculateDistance(userLocation: CLLocation, classLocation: CLLocation) -> Double {

@@ -13,7 +13,7 @@ struct listClassesScreen: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
+            VStack {
                 ScrollView {
                     VStack(alignment: .leading) {
                         HStack{
@@ -30,7 +30,7 @@ struct listClassesScreen: View {
                             .font(.body) // Changed to .body font
                             .frame(minWidth: 90, minHeight: 30)
                             .foregroundColor(.accentColor) // Changed to .accentColor
-                            .background(Color.secondary) // Changed to .secondary color
+                            .background(.ultraThinMaterial) // Changed to .secondary color
                             .cornerRadius(8)
                             .actionSheet(isPresented: $showActionSheet) {
                                 ActionSheet(
@@ -84,8 +84,26 @@ struct listClassesScreen: View {
                             }) { detail in
                                 if let teacherDetailIndex = teacherViewModel.teacherDetails.firstIndex(where: { $0.id == detail.teacherUid }) {
                                     let teacherDetail = teacherViewModel.teacherDetails[teacherDetailIndex]
-                                    NavigationLink(destination: classLandingPage(teacherUid: detail.teacherUid, academy: detail.academy , skillUid: detail.skillUid , skillOwnerUid: detail.id, className: detail.className, startTime: detail.startTime, endTime: detail.endTime, week: detail.week ,  mode : detail.mode , teacherDetail : teacherDetail , price : detail.price , skillOnwerDetailsUid: detail.id)) {
-                                        classPreviewCard(academy: detail.academy, className: detail.className, skillOnwerDetailsUid: detail.id ,  price: Int(detail.price), teacherUid: detail.teacherUid, teacherDetail: teacherDetail)
+                                    NavigationLink(destination: classLandingPage(
+                                        teacherUid: detail.teacherUid,
+                                        academy: detail.academy ,
+                                        skillUid: detail.skillUid , 
+                                        skillOwnerUid: detail.id,
+                                        className: detail.className,
+                                        startTime: detail.startTime,
+                                        endTime: detail.endTime,
+                                        week: detail.week ,
+                                        mode : detail.mode ,
+                                        teacherDetail : teacherDetail ,
+                                        price : detail.price ,
+                                        skillOnwerDetailsUid: detail.id)) {
+                                            
+                                        classPreviewCard(academy: detail.academy, 
+                                                         className: detail.className,
+                                                         skillOnwerDetailsUid: detail.id ,
+                                                         price: Int(detail.price),
+                                                         teacherUid: detail.teacherUid,
+                                                         teacherDetail: teacherDetail)
                                     }
                                 }
                             }
@@ -94,8 +112,8 @@ struct listClassesScreen: View {
                         }
                     }
                     .padding()
+                    .background(Color.background)
                 }
-                .navigationTitle("") // Removed empty navigation title
                 .onAppear {
                     viewModel.fetchSkillOwnerDetails(for: skillType)
                     Task {
@@ -103,8 +121,9 @@ struct listClassesScreen: View {
                     }
                 }
             }
-            .background(Color(UIColor.systemBackground)) // Changed to systemBackground color
-        }
+//            .background(Color.background) // Changed to systemBackground color
+        } //nav end
+        .navigationBarTitle("\(skillType.id)".capitalized, displayMode: .inline)
     }
 }
 
