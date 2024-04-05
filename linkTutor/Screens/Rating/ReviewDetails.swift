@@ -20,6 +20,7 @@ struct reviewData : Identifiable, Codable ,  Equatable {
     var skillUid: String
     var userUid : String
     var skillOwnerDetailsUid : String
+    var className : String
 }
 
 class ReviewViewModel: ObservableObject {
@@ -47,8 +48,9 @@ class ReviewViewModel: ObservableObject {
                         let teacherUid = data["teacherUid"] as? String ?? ""
                         let time = data["time"] as? Date ?? Date()
                         let skillUid = data["skillUid"] as? String ?? ""
-                        let userUid = data["userUid"] as? String ?? ""
+                        let userUid = data["userId"] as? String ?? ""
                         let skillOwnerDetailsUid = data["skillOwnerDetailsUid"] as? String ?? ""
+                        let className = data["className"] as? String ?? ""
                         
                         let reviewDetail = reviewData(id: id,
                                                       comment: comment,
@@ -58,7 +60,8 @@ class ReviewViewModel: ObservableObject {
                                                       time: time,
                                                       skillUid: skillUid,
                                                       userUid: userUid,
-                                                      skillOwnerDetailsUid: skillOwnerDetailsUid)
+                                                      skillOwnerDetailsUid: skillOwnerDetailsUid ,
+                                                      className: className)
                         details.append(reviewDetail)
                     }
                     self.reviewDetails = details

@@ -32,8 +32,6 @@ struct CalendarView: View {
                         .padding()
                     
                     VStack(spacing: 10){
-                        
-                        
                         if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
                             ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
                                 calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
@@ -46,119 +44,24 @@ struct CalendarView: View {
                         }
                     }
                     
-                    
-                    Text(dateDescription(for: selectedDate.addingTimeInterval(24 * 60 * 60)))
-                        .font(.headline)
-                        .padding()
+                    if (formattedWeekday(for: selectedDate) == formattedWeekday(for: Date())){
                         
-                    VStack(spacing: 10) {
-                        
-                        if let classesForSelectedDate = classesForNextToSelectedDate(), !classesForSelectedDate.isEmpty {
-                            if let userId = Auth.auth().currentUser?.uid {
-                                ForEach(classesForSelectedDate, id: \.id) { enrolledClass in
-                                    if enrolledClass.studentUid == userId {
-                                        calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
-                                    }
+                        Text(dateDescription(for: selectedDate.addingTimeInterval(24 * 60 * 60)))
+                            .font(.headline)
+                            .padding()
+                            
+                        VStack(spacing: 10){
+                            if let classesForSelectedDate = classesForNextToSelectedDate(), !classesForSelectedDate.isEmpty {
+                                ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
+                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
                                 }
+                            } else {
+                                Text("No classes found")
+                                    .foregroundColor(.gray)
+                                    .padding()
                             }
-                        } else {
-                            Text("No classes found")
-                                .foregroundColor(.gray)
-                                .padding()
                         }
                     }
-                    
-                    Text(dateDescription(for: selectedDate.addingTimeInterval(2 * 24 * 60 * 60)))
-                        .font(.headline)
-                        .padding()
-                    
-                    VStack(spacing: 10) {
-                        if let classesForThirdToSelectedDate = classesForThirdToSelectedDate(), !classesForThirdToSelectedDate.isEmpty {
-                            ForEach(classesForThirdToSelectedDate, id: \.id) { enrolledClass in
-                                    if enrolledClass.teacherUid == userId && enrolledClass.requestAccepted == 1 {
-                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
-                                    }
-                                }
-                        } else {
-                            Text("No classes found")
-                                .foregroundColor(.gray)
-                                .padding()
-                        }
-                    }
-                    
-                    Text(dateDescription(for: selectedDate.addingTimeInterval(3 * 24 * 60 * 60)))
-                        .font(.headline)
-                        .padding()
-                    
-                    VStack(spacing: 10) {
-                        if let classesForFourthToSelectedDate = classesForFourthToSelectedDate(), !classesForFourthToSelectedDate.isEmpty {
-                            ForEach(classesForFourthToSelectedDate, id: \.id) { enrolledClass in
-                                    if enrolledClass.teacherUid == userId && enrolledClass.requestAccepted == 1 {
-                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
-                                    }
-                                }
-                        } else {
-                            Text("No classes found")
-                                .foregroundColor(.gray)
-                                .padding()
-                        }
-                    }
-                    
-                    Text(dateDescription(for: selectedDate.addingTimeInterval(4 * 24 * 60 * 60)))
-                        .font(.headline)
-                        .padding()
-                    
-                    VStack(spacing: 10) {
-                        if let classesForFifthToSelectedDate = classesForFifthToSelectedDate(), !classesForFifthToSelectedDate.isEmpty {
-                            ForEach(classesForFifthToSelectedDate, id: \.id) { enrolledClass in
-                                    if enrolledClass.teacherUid == userId && enrolledClass.requestAccepted == 1 {
-                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
-                                    }
-                                }
-                        } else {
-                            Text("No classes found")
-                                .foregroundColor(.gray)
-                                .padding()
-                        }
-                    }
-                    
-                    Text(dateDescription(for: selectedDate.addingTimeInterval(5 * 24 * 60 * 60)))
-                        .font(.headline)
-                        .padding()
-                    
-                    VStack(spacing: 10) {
-                        if let classesForSixthToSelectedDate = classesForSixthToSelectedDate(), !classesForSixthToSelectedDate.isEmpty {
-                            ForEach(classesForSixthToSelectedDate, id: \.id) { enrolledClass in
-                                    if enrolledClass.teacherUid == userId && enrolledClass.requestAccepted == 1 {
-                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
-                                    }
-                                }
-                        } else {
-                            Text("No classes found")
-                                .foregroundColor(.gray)
-                                .padding()
-                        }
-                    }
-                    
-                    Text(dateDescription(for: selectedDate.addingTimeInterval(6 * 24 * 60 * 60)))
-                        .font(.headline)
-                        .padding()
-                    
-                    VStack(spacing: 10) {
-                        if let classesForSeventhToSelectedDate = classesForSeventhToSelectedDate(), !classesForSeventhToSelectedDate.isEmpty {
-                            ForEach(classesForSeventhToSelectedDate, id: \.id) { enrolledClass in
-                                    if enrolledClass.teacherUid == userId && enrolledClass.requestAccepted == 1 {
-                                    calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
-                                    }
-                                }
-                        } else {
-                            Text("No classes found")
-                                .foregroundColor(.gray)
-                                .padding()
-                        }
-                    }
-                    
-                    
                 }
             } //scrollview end
             Spacer()
@@ -186,7 +89,7 @@ struct CalendarView: View {
         } else if selectedDay == tomorrow {
             return "Tomorrow, \(formattedWeekday(for: date))"
         } else {
-            return "Selected \(formattedWeekday(for: date))"
+            return "\(formattedWeekday(for: date))"
         }
         
     }
@@ -202,36 +105,6 @@ struct CalendarView: View {
              enrolledClass.week.contains(formattedWeekday(for: selectedDate.addingTimeInterval(24 * 60 * 60)))
          }
      }
-    
-    func classesForThirdToSelectedDate() -> [EnrolledStudent]? {
-        return viewModel.enrolledStudents.filter { enrolledClass in
-            enrolledClass.week.contains(formattedWeekday(for: selectedDate.addingTimeInterval(2 * 24 * 60 * 60)))
-        }
-    }
-    
-    func classesForFourthToSelectedDate() -> [EnrolledStudent]? {
-        return viewModel.enrolledStudents.filter { enrolledClass in
-            enrolledClass.week.contains(formattedWeekday(for: selectedDate.addingTimeInterval(3 * 24 * 60 * 60)))
-        }
-    }
-    
-    func classesForFifthToSelectedDate() -> [EnrolledStudent]? {
-        return viewModel.enrolledStudents.filter { enrolledClass in
-            enrolledClass.week.contains(formattedWeekday(for: selectedDate.addingTimeInterval(4 * 24 * 60 * 60)))
-        }
-    }
-    
-    func classesForSixthToSelectedDate() -> [EnrolledStudent]? {
-        return viewModel.enrolledStudents.filter { enrolledClass in
-            enrolledClass.week.contains(formattedWeekday(for: selectedDate.addingTimeInterval(5 * 24 * 60 * 60)))
-        }
-    }
-    
-    func classesForSeventhToSelectedDate() -> [EnrolledStudent]? {
-        return viewModel.enrolledStudents.filter { enrolledClass in
-            enrolledClass.week.contains(formattedWeekday(for: selectedDate.addingTimeInterval(6 * 24 * 60 * 60)))
-        }
-    }
     
 }
 

@@ -31,6 +31,7 @@ struct classPreviewCard: View {
                                 .frame(width: 85, height: 85)
                                 .cornerRadius(50)
                                 .padding(.trailing, 5)
+                                .foregroundColor(.gray)
                         }
                         .frame(width: 90, height: 90)
                     } else {
@@ -40,6 +41,7 @@ struct classPreviewCard: View {
                             .frame(width: 85, height: 85)
                             .cornerRadius(50)
                             .padding(.trailing, 5)
+                            .foregroundColor(.gray)
                     }
                     Spacer()
                 }

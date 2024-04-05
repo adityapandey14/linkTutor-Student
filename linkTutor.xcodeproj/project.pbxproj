@@ -43,6 +43,7 @@
 		0FDA44862B68FDC2006F1418 /* accentHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDA44852B68FDC2006F1418 /* accentHeader.swift */; };
 		0FDA44892B6903CC006F1418 /* accentClassViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDA44882B6903CC006F1418 /* accentClassViewHeader.swift */; };
 		0FDA448B2B6911A3006F1418 /* classLandingScrollable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FDA448A2B6911A3006F1418 /* classLandingScrollable.swift */; };
+		84A935902BBEB6BF008E4E78 /* myClassesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A9358F2BBEB6BF008E4E78 /* myClassesView.swift */; };
 		84C858832BAAFE4D00C41B02 /* CalenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C858822BAAFE4D00C41B02 /* CalenderView.swift */; };
 		84C858852BAB0A0E00C41B02 /* calenderPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C858842BAB0A0E00C41B02 /* calenderPage.swift */; };
 		B1A9E3AE2B6A946600324817 /* enrolledClassList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A9E3AD2B6A946600324817 /* enrolledClassList.swift */; };
@@ -128,6 +129,7 @@
 		0FDA44852B68FDC2006F1418 /* accentHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accentHeader.swift; sourceTree = "<group>"; };
 		0FDA44882B6903CC006F1418 /* accentClassViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = accentClassViewHeader.swift; sourceTree = "<group>"; };
 		0FDA448A2B6911A3006F1418 /* classLandingScrollable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = classLandingScrollable.swift; sourceTree = "<group>"; };
+		84A9358F2BBEB6BF008E4E78 /* myClassesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = myClassesView.swift; sourceTree = "<group>"; };
 		84C858822BAAFE4D00C41B02 /* CalenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalenderView.swift; sourceTree = "<group>"; };
 		84C858842BAB0A0E00C41B02 /* calenderPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calenderPage.swift; sourceTree = "<group>"; };
 		B1A9E3AD2B6A946600324817 /* enrolledClassList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = enrolledClassList.swift; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 			children = (
 				0F9B1FDB2B948E7800250561 /* homepageComplete.swift */,
 				0F5E942D2B654B6A00212922 /* homeScreen.swift */,
+				84A9358F2BBEB6BF008E4E78 /* myClassesView.swift */,
 				DFFA21DD2BA18FF700CDFBD6 /* SearchScreen */,
 			);
 			path = HomeScreen;
@@ -674,6 +677,7 @@
 				0F5E94392B66568000212922 /* appFonts.swift in Sources */,
 				0FAA9BE72B68B97600C0A82D /* quickInfoCard.swift in Sources */,
 				DFFA21EE2BA1D3F900CDFBD6 /* RequestSent.swift in Sources */,
+				84A935902BBEB6BF008E4E78 /* myClassesView.swift in Sources */,
 				DFFA21F02BA1D40C00CDFBD6 /* RequestSentCard.swift in Sources */,
 				0F5E94352B66369900212922 /* sectionHeader.swift in Sources */,
 				0F830E432B7907980091EA77 /* listClassesScreeenModel().swift in Sources */,

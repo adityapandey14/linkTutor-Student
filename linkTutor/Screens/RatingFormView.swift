@@ -27,7 +27,7 @@ struct RatingFormView: View {
                     Spacer()
                     Text("Rate Your Experience")
                         .font(AppFont.mediumSemiBold)
-                        .foregroundStyle(Color.white)
+                        .foregroundStyle(Color.black)
                     Spacer()
                 }
                 .padding(.bottom, 40)
@@ -72,9 +72,9 @@ struct RatingFormView: View {
                                                       className: className)
                     }
                 }) {
-                    Text("Submit Rating")
+                    Text("Submit")
                         .font(AppFont.mediumSemiBold)
-                        .foregroundColor(.black)
+                        .foregroundColor(.white)
                 }
                 .frame(width:250, height: 35)
                 .padding()

@@ -12,6 +12,9 @@ struct homeScreen: View{
     
     @StateObject var viewModel1 = RequestListViewModel()
     @State private var selectedDate: Date = Date()
+    
+    @State private var isShowing = false
+    
     let userId = Auth.auth().currentUser?.uid
    
     
@@ -61,7 +64,7 @@ struct homeScreen: View{
                 ScrollView(.vertical, showsIndicators: false){
                     VStack{
                         //Enrolled classes section
-                        SectionHeader(sectionName: "Todays Classes", fileLocation: enrolledSubjectList())
+                        SectionHeader(sectionName: "Todays Classes", fileLocation: myClassesView())
                             .onTapGesture {
                                 viewModel.enrolledClassFramework = enrolledClassVList(classdata: enrolledClassMockData.sampleClassData)
                             }
@@ -69,11 +72,12 @@ struct homeScreen: View{
                         
                         //enrolled classes cards
                         ScrollView(.horizontal, showsIndicators: false){
-                            HStack{
+                            
                                 if let classesForSelectedDate = classesForSelectedDate(), !classesForSelectedDate.isEmpty {
-                                   
-                                    ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
-                                        calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                                    HStack{
+                                        ForEach(classesForSelectedDate.filter { $0.studentUid == userId && $0.requestAccepted == 1 }, id: \.id) { enrolledClass in
+                                            calenderPage(className: enrolledClass.className, tutorName: enrolledClass.teacherName, startTime: enrolledClass.startTime.dateValue())
+                                        }
                                     }
                                     
                                 } else {
@@ -85,7 +89,7 @@ struct homeScreen: View{
                                     }
                                     .padding()
                                 }
-                            }
+                            
                         }
                         .padding(.leading)
                         
@@ -129,7 +133,7 @@ struct homeScreen: View{
     
     func classesForSelectedDate() -> [EnrolledStudent]? {
          return viewModel1.enrolledStudents.filter { enrolledClass in
-             enrolledClass.week.contains(formattedWeekday(for: Date().addingTimeInterval(24 * 60 * 60)))
+             enrolledClass.week.contains(formattedWeekday(for: Date()))
          }
      }
     

@@ -30,6 +30,7 @@ struct enrolledLandingPage: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @ObservedObject var skillViewModel = SkillViewModel()
     @State private var showDeleteAlert = false
+    @State private var isButtonClicked = false
     
     
 
@@ -63,6 +64,7 @@ struct enrolledLandingPage: View {
                                     }
 
                                     ScrollView(.vertical) {
+                                        
                                         if !teacherViewModel.teacherDetails.isEmpty {
                                             // View content using teacherViewModel.teacherDetails
                                             if let teacherDetails = teacherViewModel.teacherDetails.first {
@@ -76,16 +78,16 @@ struct enrolledLandingPage: View {
                                                         Text("\(averageRating, specifier: "%.1f") ⭐️")
                                                             .padding([.top, .bottom], 4)
                                                             .padding([.leading, .trailing], 12)
-                                                            .background(Color.background)
-                                                            .cornerRadius(10)
+                                                            .background(Color.white)
+                                                            .cornerRadius(50)
                                                         
                                                         Text("\(reviewsForSkillOwner.count) Review\(reviewsForSkillOwner.count == 1 ? "" : "s")")
                                                             .font(AppFont.smallReg)
                                                             .foregroundColor(.black)
                                                     } else {
-                                                        Text("No Review")
-                                                            .font(AppFont.smallReg)
-                                                            .foregroundColor(.black)
+//                                                        Text("No Review")
+//                                                            .font(AppFont.smallReg)
+//                                                            .foregroundColor(.black)
                                                     }
                                                     Spacer()
                                                 }
@@ -93,6 +95,24 @@ struct enrolledLandingPage: View {
                                                 // Enroll button
                                               
                                                 HStack {
+                                                    Button(action:{
+                                                        isButtonClicked = true
+                                                    }) {
+                                                        Text("Add review")
+                                                            .font(AppFont.actionButton)
+                                                            .foregroundColor(.white)
+                                                    }
+                                                    .sheet(isPresented: $isButtonClicked) {
+                                                        RatingFormView(className: className,
+                                                                       skillOwnerDetailsUId: skillOwnerDetailsUid,
+                                                                       teacherUid: teacherUid,
+                                                                       skillUid: skillUid)
+                                                    }
+                                                    .padding(10)
+                                                    .padding(.horizontal)
+                                                    .background(Color.accent)
+                                                    .cornerRadius(50)
+                                                    
                                                     Button(action: {
                                                         showDeleteAlert.toggle()
                                                 
@@ -101,9 +121,10 @@ struct enrolledLandingPage: View {
                                                             .font(AppFont.actionButton)
                                                             .foregroundColor(.white)
                                                     }
-                                                    .frame(minWidth: 90, minHeight: 30)
-                                                    .background(Color.red)
-                                                    .cornerRadius(8)
+                                                    .padding(10)
+                                                    .padding(.horizontal)
+                                                    .background(Color.black.opacity(0.3))
+                                                    .cornerRadius(50)
                                                     .alert(isPresented: $showDeleteAlert) {
                                                         Alert(
                                                             title: Text("Unenroll from class"),
@@ -118,7 +139,7 @@ struct enrolledLandingPage: View {
                                                     }
                                                     Spacer()
                                                 }
-                                                
+                                                //h
                                              
                                                 QuickInfoCard(tutorAddress: "\(teacherDetails.city)", startTime: detail.endTime , endTime: detail.endTime, tutionFee: detail.price )
                                                                                        .padding([.top, .bottom], 10)
@@ -154,7 +175,7 @@ struct enrolledLandingPage: View {
                                                         Text("iMessage")
                                                             .font(AppFont.actionButton)
                                                     }
-                                                    .padding([.top, .bottom], 4)
+                                                    .padding([.top, .bottom], 6)
                                                     .padding([.leading, .trailing], 12)
                                                     .background(Color.messageAccent)
                                                     .foregroundStyle(Color.black)
@@ -177,7 +198,7 @@ struct enrolledLandingPage: View {
                                                                         .font(.system(size: 20))
                                                                     Text("Online")
                                                                         .font(AppFont.smallReg)
-                                                                        .foregroundColor(.gray)
+                                                                        .foregroundColor(.black)
                                                                     Spacer()
                                                                 }.padding(5)
                                                                 HStack {
@@ -185,7 +206,7 @@ struct enrolledLandingPage: View {
                                                                         .font(.system(size: 20))
                                                                     Text("Offline")
                                                                         .font(AppFont.smallReg)
-                                                                        .foregroundColor(.gray)
+                                                                        .foregroundColor(.black)
                                                                     Spacer()
                                                                 }.padding(5)
                                                             }
@@ -193,9 +214,9 @@ struct enrolledLandingPage: View {
                                                                 HStack {
                                                                     Image(systemName: "checkmark")
                                                                         .font(.system(size: 20))
-                                                                    Text("\(detail.mode)")
+                                                                    Text("\(detail.mode)".capitalized)
                                                                         .font(AppFont.smallReg)
-                                                                        .foregroundColor(.gray)
+                                                                        .foregroundColor(.black)
                                                                     Spacer()
                                                                 }.padding(5)
                                                             }
@@ -301,9 +322,9 @@ struct QuickInfoCard: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 HStack {
-                    Image(systemName: "location.fill")
+                    Image("location")
                         .resizable()
-                        .frame(width: 20, height: 20)
+                        .frame(width: 18, height: 18)
                         .foregroundColor(.blue)
                     Text("\(tutorAddress)")
                         .font(.subheadline)
@@ -341,7 +362,7 @@ struct QuickInfoCard: View {
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: 180)
-        .background(Color.gray.opacity(0.1))
+        .background(Color.elavated)
         .cornerRadius(10)
     }
     
